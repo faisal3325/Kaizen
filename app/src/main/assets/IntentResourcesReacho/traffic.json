@@ -1,0 +1,45 @@
+{
+  "intents" : [
+    {
+      "Accident": {
+        "synonyms": [
+          "Crash"
+        ],
+        "unicode": "1F691",
+        "expression_id": 1,
+        "resource_name": "emojis_1f691"
+      }
+    },
+    {
+      "Construction": {
+        "synonyms": [
+          "Work Under Progress"
+        ],
+        "unicode": "1f6a7",
+        "expression_id": 2,
+        "resource_name": "emojis_1f6a7"
+      }
+    },
+    {
+      "Objects": {
+        "synonyms": [
+          "Be Carefull Objects on Road"
+        ],
+        "unicode": "26a0",
+        "expression_id": 3,
+        "resource_name": "emojis_26a0"
+      }
+
+    },
+    {
+      "Bad": {
+        "synonyms": [
+          "Condiser other Routes"
+        ],
+        "unicode": "1F4a1",
+        "expression_id": 4,
+        "resource_name": "emojis_1f4a1"
+      }
+    }
+  ]
+}

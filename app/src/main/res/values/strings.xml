@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Smart City</string>
+    <string name="rest_key">zr39sem7c8i2ulwifya84ifbgmuvnj4y</string>
+    <string name="sdk_key">m68qj6audr8ko52ffbnis25lnygmtvls</string>
+    <string name="krumbssdk_app_id">tLTV6gWHzba0f54864lggtRJdoMsMmnjN8OknEKA</string>
+    <string name="krumbssdk_client_key">LC1xEh8n7pSz3Qcf1SHTFOnN4xZ5Lq4vjzLGAmpg</string>
+    <string name="gforce_10">GForce 10</string>
+</resources>

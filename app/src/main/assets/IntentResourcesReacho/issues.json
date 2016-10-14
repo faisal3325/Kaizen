@@ -1,0 +1,60 @@
+{
+  "intents": [
+    {
+      "Child labour!": {
+        "synonyms": [
+          "Child Labour"
+        ],
+        "unicode": "1F613",
+        "expression_id": 1,
+        "resource_name": "emojis_1f613"
+      }
+    },
+    {
+      "Air Pollution": {
+        "synonyms": [
+          "Pollution",
+          "Air Quality",
+          "Smoke"
+        ],
+        "unicode": "1F637",
+        "expression_id": 2,
+        "resource_name": "emojis_1f637"
+      }
+    },
+    {
+      "Pothole": {
+        "synonyms": [
+          "Accident",
+          "PotHole"
+        ],
+        "unicode": "1F621",
+        "expression_id": 3,
+        "resource_name": "emojis_1f621"
+      }
+    },
+    {
+      "Garbage": {
+        "synonyms": [
+          "Disease",
+          "Pollution",
+          "Mosquito"
+        ],
+        "unicode": "1F616",
+        "expression_id": 4,
+        "resource_name": "emojis_1f616"
+      }
+    },
+    {
+      "Smoking": {
+        "synonyms": [
+          "Add 'No smoking' Sign",
+          "Pollution"
+        ],
+        "unicode": "1F6ad",
+        "expression_id": 5,
+        "resource_name": "emojis_1f6ad"
+      }
+    }
+  ]
+}

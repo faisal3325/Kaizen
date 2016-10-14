@@ -1,0 +1,11 @@
+{
+  "Issues": {
+    "index": 1,
+    "preferred_location_categories": ["Pothole"],
+    "intents_file": "issues.json"
+  },
+  "Traffic":  {
+    "index": 2,
+    "intents_file": "traffic.json"
+  }
+}
