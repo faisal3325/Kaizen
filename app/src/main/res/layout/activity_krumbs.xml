@@ -4,7 +4,7 @@
     android:id="@+id/activity_krumbs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mapmyindia.smartcity.KrumbsActivity">
+    tools:context=".SplashActivity">
     <FrameLayout
         android:id="@+id/fullscreen"
         android:layout_width="match_parent"
