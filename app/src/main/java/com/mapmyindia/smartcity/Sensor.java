@@ -57,7 +57,7 @@ public class Sensor extends AppCompatActivity implements SensorEventListener    
 
         float gForce = (float) Math.sqrt(gX * gX + gY * gY + gZ * gZ);
         Log.d("GeForce", String.valueOf(gForce));
-        if(gForce > 10) {
+        if(gForce > 5) {
             collision();
             sensorManager.unregisterListener(this);
         }
@@ -96,10 +96,10 @@ public class Sensor extends AppCompatActivity implements SensorEventListener    
                 .setContentTitle("Collision")
                 .setContentText("Are you dead?")
                 .setColor(Color.BLACK)
-                .setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500})
+                .setVibrate(new long[]  {500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500})
                 .setPriority(Notification.PRIORITY_MAX)
                 .setVisibility(VISIBILITY_PUBLIC)
-                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                .setSound(Settings.System.DEFAULT_ALARM_ALERT_URI)
                 .setOngoing(true);
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
 

@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mapmyindia.smartcity">
 
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -26,18 +25,16 @@
             android:value="@string/krumbssdk_client_key" />
 
         <activity android:name=".MapActivity" />
-        <activity android:name=".MainActivity">
-        </activity>
         <activity android:name=".Sensor" />
         <activity
             android:name=".NotificationActivity"
             android:excludeFromRecents="true"
             android:taskAffinity="" />
         <activity android:name=".Injured" />
-        <activity android:name=".KrumbsActivity">
+        <activity android:name=".KrumbsActivity" />
+        <activity android:name=".GridHome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

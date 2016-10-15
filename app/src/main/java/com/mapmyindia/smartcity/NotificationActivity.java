@@ -26,7 +26,7 @@ public class NotificationActivity extends Activity {
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             if (Objects.equals(extras.getString(TYPE), "safe")) {
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, GridHome.class);
                 startActivity(intent);
                 finish();
             }   else if (Objects.equals(extras.getString(TYPE), "sos")) {
