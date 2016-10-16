@@ -47,4 +47,5 @@ dependencies {
     compile 'it.michelelacorte.swipeablecard:library:2.3.0@aar'
     testCompile 'junit:junit:4.12'
     compile files('libs/map_sdk_2.0.jar')
+    compile 'com.android.support:recyclerview-v7:24.2.1'
 }

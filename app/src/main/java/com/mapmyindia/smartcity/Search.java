@@ -3,6 +3,9 @@ package com.mapmyindia.smartcity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -15,6 +18,7 @@ import com.mmi.apis.place.autosuggest.AutoSuggestListener;
 import com.mmi.apis.place.autosuggest.AutoSuggestManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Search extends AppCompatActivity {
 
@@ -22,6 +26,9 @@ public class Search extends AppCompatActivity {
     MapmyIndiaMapView mMap;
     AutoCompleteTextView autoComplete;
     ImageView back;
+    private List<PlaceList> placeList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private AutoCompleteAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +39,16 @@ public class Search extends AppCompatActivity {
 
         this.getSupportActionBar().hide();
 
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        mAdapter = new AutoCompleteAdapter(placeList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+        prepareList();
         autoComplete = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+
         mMap = (MapmyIndiaMapView) findViewById(R.id.map);
         mMapView = mMap.getMapView();
 
@@ -52,13 +68,35 @@ public class Search extends AppCompatActivity {
             public void onResult(int code, ArrayList places) {
                 //code:0 success, 1 exception, 2 no result
                 // response in array of AutoSuggest class
-                if(code == 0)   {
+                if (code == 0) {
                     Log.d("AutoSuggest", "Success");
-                    for(int i = 0; i < places.size(); i++)
+                    for (int i = 0; i < places.size(); i++)
                         Log.d("AutoSuggest", String.valueOf(places.get(i)));
-                }   else if(code == 1)  Log.e("AutoSuggest", "Exception");
-                else if(code == 2)  Log.d("AutoSuggest", "No Result");
+                } else if (code == 1) Log.e("AutoSuggest", "Exception");
+                else if (code == 2) Log.d("AutoSuggest", "No Result");
             }
-        },true);
+        }, true);
+    }
+
+    private void prepareList() {
+        PlaceList place = new PlaceList("Mad Max: Fury Road");
+        placeList.add(place);
+
+        place = new PlaceList("Mad Max: Fury Road");
+        placeList.add(place);
+
+        place = new PlaceList("Mad Max: Fury Road");
+        placeList.add(place);
+
+        place = new PlaceList("Mad Max: Fury Road");
+        placeList.add(place);
+
+        place = new PlaceList("Mad Max: Fury Road");
+        placeList.add(place);
+
+        place = new PlaceList("Mad Max: Fury Road");
+        placeList.add(place);
+
+        mAdapter.notifyDataSetChanged();
     }
 }
