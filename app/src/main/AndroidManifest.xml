@@ -32,7 +32,11 @@
             android:taskAffinity="" />
         <activity android:name=".Injured" />
         <activity android:name=".KrumbsActivity" />
-        <activity android:name=".GridHome">
+        <activity android:name=".GridHome" />
+        <activity android:name=".GridNearby" />
+        <activity android:name=".TutorialActivity" />
+        <activity android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

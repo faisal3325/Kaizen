@@ -49,7 +49,6 @@ public class KrumbsActivity extends AppCompatActivity implements GoogleApiClient
     void startKrumbs() {
 
         int containerId = R.id.fullscreen;
-        // SDK usage step 4 - Start the K-Capture component and add a listener to handle returned images and URLs
         KrumbsSDK.startCapture(containerId, this, new KCaptureCompleteListener() {
             @Override
             public void captureCompleted(CompletionState completionState, boolean audioCaptured, Map<String, Object> map) {
@@ -58,23 +57,22 @@ public class KrumbsActivity extends AppCompatActivity implements GoogleApiClient
                     Log.d("KRUMBS-CALLBACK", completionState.toString());
                 }
                 if (completionState == CompletionState.CAPTURE_SUCCESS) {
-                    Intent intent = new Intent(KrumbsActivity.this, MapActivity.class);
+
+                    Intent intent = new Intent(KrumbsActivity.this, SplashActivity.class);
+
                     Log.d("Captured", "Location");
                     fetchLocationData();
+
                     intent.putExtra("Place", "krumbs");
                     intent.putExtra("Lat", latiUser);
                     intent.putExtra("Lng", lngiUser);
-                    if(latiUser != null && lngiUser != null)    {
-                        KrumbsActivity.this.finish();
-                        startActivity(intent);
-                    }
+                    KrumbsActivity.this.finish();
+                    startActivity(intent);
 
-                    // The local image url for your capture
                     String imagePath = (String) map.get(KCaptureCompleteListener.CAPTURE_MEDIA_IMAGE_PATH);
                     if (audioCaptured) {
                         String audioPath = (String) map.get(KCaptureCompleteListener.CAPTURE_MEDIA_AUDIO_PATH);
                     }
-                    // The mediaJSON url for your capture
                     String mediaJSONUrl = (String) map.get(KCaptureCompleteListener.CAPTURE_MEDIA_JSON_URL);
                     Log.i("KRUMBS-CALLBACK", mediaJSONUrl + ", " + imagePath);
                 } else if (completionState == CompletionState.CAPTURE_CANCELLED ||
