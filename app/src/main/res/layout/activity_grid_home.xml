@@ -58,8 +58,4 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:clickable="true"    />
-    <com.mmi.MapmyIndiaMapView
-        android:id="@+id/map"
-        android:layout_width="0dp"
-        android:layout_height="0dp" />
 </LinearLayout>

@@ -1,21 +1,40 @@
 package com.mapmyindia.smartcity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 
+import com.mmi.LicenceManager;
+import com.mmi.MapView;
+import com.mmi.MapmyIndiaMapView;
+import com.mmi.apis.place.autosuggest.AutoSuggestListener;
+import com.mmi.apis.place.autosuggest.AutoSuggestManager;
+
+import java.util.ArrayList;
+
 public class Search extends AppCompatActivity {
 
+    MapView mMapView;
+    MapmyIndiaMapView mMap;
     AutoCompleteTextView autoComplete;
     ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LicenceManager.getInstance().setRestAPIKey("zr39sem7c8i2ulwifya84ifbgmuvnj4y");
+        LicenceManager.getInstance().setMapSDKKey("m68qj6audr8ko52ffbnis25lnygmtvls");
         setContentView(R.layout.activity_search);
+
+        this.getSupportActionBar().hide();
+
+        autoComplete = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        mMap = (MapmyIndiaMapView) findViewById(R.id.map);
+        mMapView = mMap.getMapView();
 
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -27,7 +46,7 @@ public class Search extends AppCompatActivity {
             }
         });
 
-        /*AutoSuggestManager autoSuggestManager =new AutoSuggestManager();
+        AutoSuggestManager autoSuggestManager = new AutoSuggestManager();
         autoSuggestManager.getSuggestions(String.valueOf(autoComplete.getText()), new AutoSuggestListener() {
             @Override
             public void onResult(int code, ArrayList places) {
@@ -41,6 +60,5 @@ public class Search extends AppCompatActivity {
                 else if(code == 2)  Log.d("AutoSuggest", "No Result");
             }
         },true);
-*/
     }
 }

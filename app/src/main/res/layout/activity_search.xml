@@ -24,7 +24,9 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:paddingStart="15dp"
-            android:paddingEnd="25dp"
+            android:paddingEnd="22dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="4dp"
             app:srcCompat="?attr/actionModeCloseDrawable"
             android:id="@+id/back" />
         <LinearLayout
@@ -35,10 +37,24 @@
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextView"
             android:hint="@string/search"
+            android:textSize="14sp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="4dp"
+            android:background="#80FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nextFocusUp="@id/autoCompleteTextView"
             android:nextFocusLeft="@id/autoCompleteTextView" />
+        <AutoCompleteTextView
+            android:layout_width="0dp"
+            android:enabled="false"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="4dp"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
+    <com.mmi.MapmyIndiaMapView
+        android:id="@+id/map"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
 </LinearLayout>

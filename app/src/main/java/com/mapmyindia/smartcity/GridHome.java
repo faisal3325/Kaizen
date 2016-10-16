@@ -9,15 +9,8 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mmi.LicenceManager;
-import com.mmi.MapView;
-import com.mmi.MapmyIndiaMapView;
-import com.mmi.util.GeoPoint;
-
 public class GridHome extends AppCompatActivity {
 
-    MapView mMapView;
-    MapmyIndiaMapView mMap;
     TextView autoComplete;
     Intent intent;
     GridView grid;
@@ -32,16 +25,8 @@ public class GridHome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        LicenceManager.getInstance().setRestAPIKey("zr39sem7c8i2ulwifya84ifbgmuvnj4y");
-        LicenceManager.getInstance().setMapSDKKey("m68qj6audr8ko52ffbnis25lnygmtvls");
-
         setContentView(R.layout.activity_grid_home);
-        mMap = (MapmyIndiaMapView) findViewById(R.id.map);
-        mMapView = mMap.getMapView();
-        GeoPoint geoPoint= new GeoPoint(21.1770846, 79.0691993);
-        mMapView.setCenter(geoPoint);
-
+        this.getSupportActionBar().hide();
         search = (LinearLayout) findViewById(R.id.search);
 
         search.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +48,7 @@ public class GridHome extends AppCompatActivity {
         });
 
         CustomGridHome adapter = new CustomGridHome(GridHome.this,  imageId);
-        grid=(GridView)findViewById(R.id.grid);
+        grid = (GridView) findViewById(R.id.grid);
         grid.setAdapter(adapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

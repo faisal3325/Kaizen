@@ -3,6 +3,7 @@ package com.mapmyindia.smartcity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Window;
 
 import com.mmi.LicenceManager;
 import com.mmi.MapView;
@@ -43,8 +44,9 @@ public class MapActivity extends AppCompatActivity {
         
         LicenceManager.getInstance().setRestAPIKey("zr39sem7c8i2ulwifya84ifbgmuvnj4y");
         LicenceManager.getInstance().setMapSDKKey("m68qj6audr8ko52ffbnis25lnygmtvls");
-
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_map);
+
         mMap = (MapmyIndiaMapView) findViewById(R.id.map);
         mMapView = mMap.getMapView();
         GeoPoint geoPoint= new GeoPoint(21.1770846, 79.0691993);
