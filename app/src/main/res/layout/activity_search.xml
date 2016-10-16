@@ -23,6 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:paddingStart="15dp"
+            android:paddingEnd="25dp"
             app:srcCompat="?attr/actionModeCloseDrawable"
             android:id="@+id/back" />
         <LinearLayout
