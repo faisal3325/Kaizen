@@ -22,11 +22,16 @@ public class MapActivity extends AppCompatActivity {
     MapmyIndiaMapView mMap;
     Double lat;
     Double lng;
+    ArrayList<String> placesName;
+    ArrayList<String> placesDesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        placesName = new ArrayList<>();
+        placesName.clear();
+        placesDesc = new ArrayList<>();
+        placesDesc.clear();
         String place = null;
         Bundle extras = getIntent().getExtras();
         place = extras.getString("Place");
@@ -35,8 +40,7 @@ public class MapActivity extends AppCompatActivity {
         Log.d("Map", place);
         Log.d("Map", String.valueOf(lat));
         Log.d("Map", String.valueOf(lng));
-
-
+        
         LicenceManager.getInstance().setRestAPIKey("zr39sem7c8i2ulwifya84ifbgmuvnj4y");
         LicenceManager.getInstance().setMapSDKKey("m68qj6audr8ko52ffbnis25lnygmtvls");
 
@@ -60,6 +64,8 @@ public class MapActivity extends AppCompatActivity {
                             Log.d("Nearby Places", String.valueOf(places.get(i)));
                             Place place1 = (Place) places.get(i);
                             Log.d("Place", place1.getDisplayName());
+                            placesName.add(place1.getDisplayName());
+                            placesDesc.add(place1.desc);
 
                             Marker marker = new Marker(mMapView);
                             marker.setPosition(place1.getGeoPoint());

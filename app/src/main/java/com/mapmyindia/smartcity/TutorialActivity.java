@@ -1,6 +1,7 @@
 package com.mapmyindia.smartcity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,8 @@ import com.github.paolorotolo.appintro.AppIntroFragment;
  */
 
 public class TutorialActivity extends AppIntro  {
+
+    public static final String PREFS_NAME = "TutPrefs";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,9 +40,8 @@ public class TutorialActivity extends AppIntro  {
         addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart city Cargo", R.drawable.cargo, Color.BLACK));
         // OPTIONAL METHODS
         // Override bar/separator color.
-  /*      setBarColor(Color.parseColor("#3F51B5"));
-        setSeparatorColor(Color.parseColor("#2196F3"));
-*/
+        /*setBarColor(Color.parseColor("#3F51B5"));
+        setSeparatorColor(Color.parseColor("#2196F3"));*/
         // Hide Skip/Done button.
         showSkipButton(true);
         setProgressButtonEnabled(true);
@@ -54,6 +56,12 @@ public class TutorialActivity extends AppIntro  {
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
         // Do something when users tap on Skip button.
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("Seen", "Seen");
+        editor.apply();
+
         Intent intent = new Intent(this, GridHome.class);
         startActivity(intent);
     }
@@ -62,6 +70,12 @@ public class TutorialActivity extends AppIntro  {
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
         // Do something when users tap on Done button.
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("Seen", "Seen");
+        editor.apply();
+
         Intent intent = new Intent(this, GridHome.class);
         startActivity(intent);
     }
