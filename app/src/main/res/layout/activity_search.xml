@@ -29,11 +29,6 @@
             android:layout_marginBottom="4dp"
             app:srcCompat="?attr/actionModeCloseDrawable"
             android:id="@+id/back" />
-        <LinearLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:layout_width="0px"
-            android:layout_height="0px"/>
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextView"
             android:hint="@string/search"
@@ -42,9 +37,7 @@
             android:layout_marginBottom="4dp"
             android:background="#80FFFFFF"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nextFocusUp="@id/autoCompleteTextView"
-            android:nextFocusLeft="@id/autoCompleteTextView" />
+            android:layout_height="wrap_content" />
         <AutoCompleteTextView
             android:layout_width="0dp"
             android:enabled="false"
