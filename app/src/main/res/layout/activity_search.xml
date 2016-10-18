@@ -28,8 +28,9 @@
             android:layout_marginTop="3dp"
             android:layout_marginBottom="4dp"
             app:srcCompat="?attr/actionModeCloseDrawable"
+            android:background="?attr/selectableItemBackground"
             android:id="@+id/back" />
-        <AutoCompleteTextView
+        <EditText
             android:id="@+id/autoCompleteTextView"
             android:hint="@string/search"
             android:textSize="14sp"
@@ -54,5 +55,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:paddingTop="2dp"/>
 </LinearLayout>
