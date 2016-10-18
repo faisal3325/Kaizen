@@ -46,54 +46,81 @@ public class GridNearby extends Activity {
                         Log.d("Grid", "Clicked on first");
                         intent = new Intent(GridNearby.this , MapActivity.class);
                         intent.putExtra("Place", "firestation");
+                        intent.putExtra("Lat", "0");
+                        intent.putExtra("Lng", "0");
+                        intent.putExtra("Name", "firestation");
                         startActivity(intent);
                         break;
                     case 1:
                         Log.d("Grid", "Clicked on second");
                         intent = new Intent(GridNearby.this , MapActivity.class);
                         intent.putExtra("Place", "hospital");
+                        intent.putExtra("Lat", "0");
+                        intent.putExtra("Lng", "0");
+                        intent.putExtra("Name", "hospital");
                         startActivity(intent);
                         break;
                     case 2:
                         Log.d("Grid", "Clicked on third!");
                         intent = new Intent(GridNearby.this , MapActivity.class);
                         intent.putExtra("Place", "police");
+                        intent.putExtra("Lat", "0");
+                        intent.putExtra("Lng", "0");
+                        intent.putExtra("Name", "police");
                         startActivity(intent);
                         break;
                     case 3:
                         Log.d("Grid", "Clicked on third!");
                         intent = new Intent(GridNearby.this , MapActivity.class);
                         intent.putExtra("Place", "atm");
+                        intent.putExtra("Lat", "0");
+                        intent.putExtra("Lng", "0");
+                        intent.putExtra("Name", "atm");
                         startActivity(intent);
                         break;
                     case 4:
                         Log.d("Grid", "Clicked on third!");
                         intent = new Intent(GridNearby.this , MapActivity.class);
                         intent.putExtra("Place", "toilets");
+                        intent.putExtra("Lat", "0");
+                        intent.putExtra("Lng", "0");
+                        intent.putExtra("Name", "toilets");
                         startActivity(intent);
                         break;
                     case 5:
                         Log.d("Grid", "Clicked on third!");
                         intent = new Intent(GridNearby.this , MapActivity.class);
                         intent.putExtra("Place", "restaurants");
+                        intent.putExtra("Lat", "0");
+                        intent.putExtra("Lng", "0");
+                        intent.putExtra("Name", "restaurants");
                         startActivity(intent);
                         break;
                     case 6:
                         Log.d("Grid", "Clicked on third!");
                         intent = new Intent(GridNearby.this , MapActivity.class);
                         intent.putExtra("Place", "bus");
+                        intent.putExtra("Lat", "0");
+                        intent.putExtra("Lng", "0");
+                        intent.putExtra("Name", "bus");
                         startActivity(intent);
                         break;
                     case 7:
                         Log.d("Grid", "Clicked on third!");
                         intent = new Intent(GridNearby.this , MapActivity.class);
                         intent.putExtra("Place", "cargo");
+                        intent.putExtra("Lat", "0");
+                        intent.putExtra("Lng", "0");
+                        intent.putExtra("Name", "cargo");
                         startActivity(intent);
                         break;
                     case 8:
                         Log.d("Grid", "Clicked on third!");
                         intent = new Intent(GridNearby.this , MapActivity.class);
                         intent.putExtra("Place", "metro");
+                        intent.putExtra("Lat", "0");
+                        intent.putExtra("Lng", "0");
+                        intent.putExtra("Name", "metro");
                         startActivity(intent);
                         break;
                 }

@@ -64,6 +64,7 @@ public class KrumbsActivity extends AppCompatActivity implements GoogleApiClient
                     fetchLocationData();
 
                     intent.putExtra("Place", "krumbs");
+                    intent.putExtra("Name", "krumbs");
                     intent.putExtra("Lat", latiUser);
                     intent.putExtra("Lng", lngiUser);
                     KrumbsActivity.this.finish();
