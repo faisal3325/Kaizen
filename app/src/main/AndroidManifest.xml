@@ -25,7 +25,6 @@
             android:value="@string/krumbssdk_client_key" />
 
         <activity android:name=".MapActivity" />
-        <activity android:name=".Sensor" />
         <activity
             android:name=".NotificationActivity"
             android:excludeFromRecents="true"
@@ -44,7 +43,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Search"></activity>
+        <activity android:name=".Search" />
+        <activity android:name=".CardLayout" />
     </application>
 
 </manifest>

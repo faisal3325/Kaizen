@@ -3,40 +3,62 @@ package com.mapmyindia.smartcity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Intent;
 import android.graphics.Color;
+import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.IBinder;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import static android.support.v4.app.NotificationCompat.VISIBILITY_PUBLIC;
 
-public class Sensor extends AppCompatActivity implements SensorEventListener    {
+/**
+ * Created by Faisal on 23-Oct-16.
+ */
 
-    SensorManager sensorManager;
-    long lastUpdate;
+public class SensorService extends Service implements SensorEventListener {
+
+    private SensorManager sensorManager = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sensor);
+    public void onCreate() {
+        super.onCreate();
+        Log.d("SensorService", "onStartCommand");
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        lastUpdate = System.currentTimeMillis();
-        Button gForce = (Button) findViewById(R.id.button);
-        gForce.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                collision();
-            }
-        });
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(this, sensor,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        Log.d("Sensor", "onCreate");
+        collisionNotification();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d("SensorService", "onStartCommand");
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(this, sensor,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        collisionNotification();
+        return START_STICKY;
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        Log.d("SensorService", "onStartCommand");
+        return null;
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // do nothing
     }
 
     @Override
@@ -57,29 +79,11 @@ public class Sensor extends AppCompatActivity implements SensorEventListener    
 
         float gForce = (float) Math.sqrt(gX * gX + gY * gY + gZ * gZ);
         Log.d("GeForce", String.valueOf(gForce));
-        if(gForce > 5) {
+        //TODO gforce value
+        if(gForce >= 0) {
             collision();
             sensorManager.unregisterListener(this);
         }
-    }
-
-    @Override
-    public void onAccuracyChanged(android.hardware.Sensor sensor, int i) {
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sensorManager.registerListener(this,
-                sensorManager.getDefaultSensor(android.hardware.Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(this);
     }
 
     void collision()    {
@@ -112,5 +116,19 @@ public class Sensor extends AppCompatActivity implements SensorEventListener    
             }
         }.start();
         Toast.makeText(this, "Collision detected!", Toast.LENGTH_SHORT).show();
+    }
+
+    void collisionNotification()    {
+        final NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Log.d("Collision","Notification");
+        final NotificationCompat.Builder mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Collision Detector")
+                .setContentText("Running")
+                .setColor(Color.BLACK)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setVisibility(VISIBILITY_PUBLIC)
+                .setOngoing(true);
+        mNotifyMgr.notify(1, mBuilder.build());
     }
 }

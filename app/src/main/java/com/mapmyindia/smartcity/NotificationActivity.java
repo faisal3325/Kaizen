@@ -37,8 +37,8 @@ public class NotificationActivity extends Activity {
         }
     }
 
-    public static PendingIntent getDismissIntent(int notificationId, Context context) {
-        Log.d("NotificationActivity", "");
+    public static PendingIntent getDismissIntent(int notificationId, Context context)   {
+        Log.d("NotificationActivity", "SOS");
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(NOTIFICATION_ID, notificationId);
@@ -46,8 +46,8 @@ public class NotificationActivity extends Activity {
         return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
-    public static PendingIntent getDismissIntent1(int notificationId, Context context) {
-        Log.d("NotificationActivity", "");
+    public static PendingIntent getDismissIntent1(int notificationId, Context context)  {
+        Log.d("NotificationActivity", "Safe");
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(NOTIFICATION_ID, notificationId);

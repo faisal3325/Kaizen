@@ -6,4 +6,6 @@
     <string name="krumbssdk_client_key">LC1xEh8n7pSz3Qcf1SHTFOnN4xZ5Lq4vjzLGAmpg</string>
     <string name="gforce_10">GForce 10</string>
     <string name="search">Search on Map for places                        </string>
+    <string name="collision">Do you want to enable the collision detector? Note: this will consume battery. You can disable it whenever you want from here.</string>
+    <string name="agree">I agree</string>
 </resources>

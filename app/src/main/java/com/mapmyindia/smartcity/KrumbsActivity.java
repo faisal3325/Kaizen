@@ -36,9 +36,7 @@ public class KrumbsActivity extends AppCompatActivity implements GoogleApiClient
         setContentView(R.layout.activity_krumbs);
 
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        if (actionBar != null)  actionBar.setDisplayHomeAsUpEnabled(true);
         if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION, getApplicationContext(), KrumbsActivity.this))
             fetchLocationData();
         else

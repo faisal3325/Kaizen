@@ -68,11 +68,11 @@ public class AutoSuggestAdapter extends RecyclerView.Adapter<AutoSuggestAdapter.
         holder.relativeLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MapActivity.class);
-                intent.putExtra("Place", "search");
                 Log.d("Intent", mDataset.get(position));
                 Log.d("Intent", latitude.get(position));
                 Log.d("Intent", longitude.get(position));
+                Intent intent = new Intent(v.getContext(), MapActivity.class);
+                intent.putExtra("Place", "search");
                 intent.putExtra("Name", mDataset.get(position));
                 intent.putExtra("Lng", latitude.get(position));
                 intent.putExtra("Lat", longitude.get(position));
