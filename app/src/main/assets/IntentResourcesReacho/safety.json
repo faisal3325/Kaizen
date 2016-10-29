@@ -1,0 +1,47 @@
+{
+  "intents": [
+    {
+      "Police Car": {
+        "synonyms": [
+          "High Crime Area"
+        ],
+        "unicode": "1F693",
+        "expression_id": 1,
+        "resource_name": "emojis_1f693"
+      }
+    },
+    {
+      "Crime": {
+        "synonyms": [
+          "Send Police"
+        ],
+        "unicode": "1F6A8",
+        "expression_id": 2,
+        "resource_name": "emojis_1f6a8"
+      }
+    },
+    {
+      "Beware": {
+        "synonyms": [
+          "Stay Away!!",
+          "Drive Slow!!",
+          "Don't walk alone here ",
+          "PotHole"
+        ],
+        "unicode": "1F628",
+        "expression_id": 3,
+        "resource_name": "emojis_1f628"
+      }
+    },
+    {
+      "Children Area": {
+        "synonyms": [
+          "Drive Slow!!"
+        ],
+        "unicode": "1F6B8",
+        "expression_id": 4,
+        "resource_name": "emojis_1f6b8"
+      }
+    }
+  ]
+}
