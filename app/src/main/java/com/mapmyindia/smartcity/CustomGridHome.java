@@ -40,11 +40,9 @@ class CustomGridHome extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View grid;
-        LayoutInflater inflater = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-
             grid = inflater.inflate(R.layout.custom_grid_home, null);
             ImageView imageView = (ImageView)grid.findViewById(R.id.grid_image);
             imageView.setImageResource(Imageid[position]);

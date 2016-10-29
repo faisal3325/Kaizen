@@ -76,8 +76,7 @@ public class KrumbsCamera extends Application   {
             if (appInfo.metaData != null) {
                 return appInfo.metaData.getString(name);
             }
-        } catch (PackageManager.NameNotFoundException ignored) {
-        }
+        }   catch(PackageManager.NameNotFoundException ignored) {}
         return null;
     }
 }

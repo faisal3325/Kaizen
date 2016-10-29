@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".KrumbsReport">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/last_day"
+            app:showAsAction="never"
+            android:orderInCategory="1"
+            android:title="@string/last_day"/>
+        <item android:id="@+id/last_24h"
+            app:showAsAction="never"
+            android:orderInCategory="2"
+            android:title="@string/last_24h"/>
+        <item android:id="@+id/last_month"
+            app:showAsAction="never"
+            android:orderInCategory="3"
+            android:title="@string/last_month"/>
+        <item android:id="@+id/last_year"
+            app:showAsAction="never"
+            android:orderInCategory="4"
+            android:title="@string/last_year"/>
+    </group>
+</menu>

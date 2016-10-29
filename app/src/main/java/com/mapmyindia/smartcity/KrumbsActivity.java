@@ -14,8 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.Map;
@@ -34,6 +34,7 @@ public class KrumbsActivity extends AppCompatActivity implements GoogleApiClient
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_krumbs);
+        this.getSupportActionBar().hide();
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)  actionBar.setDisplayHomeAsUpEnabled(true);
@@ -45,8 +46,8 @@ public class KrumbsActivity extends AppCompatActivity implements GoogleApiClient
     }
 
     void startKrumbs() {
-
         int containerId = R.id.fullscreen;
+        Log.d("Krumbs", "Opened");
         KrumbsSDK.startCapture(containerId, this, new KCaptureCompleteListener() {
             @Override
             public void captureCompleted(CompletionState completionState, boolean audioCaptured, Map<String, Object> map) {
@@ -55,28 +56,22 @@ public class KrumbsActivity extends AppCompatActivity implements GoogleApiClient
                     Log.d("KRUMBS-CALLBACK", completionState.toString());
                 }
                 if (completionState == CompletionState.CAPTURE_SUCCESS) {
-
-                    Intent intent = new Intent(KrumbsActivity.this, SplashActivity.class);
-
-                    Log.d("Captured", "Location");
-                    fetchLocationData();
-
-                    intent.putExtra("Place", "krumbs");
-                    intent.putExtra("Name", "krumbs");
-                    intent.putExtra("Lat", latiUser);
-                    intent.putExtra("Lng", lngiUser);
-                    KrumbsActivity.this.finish();
-                    startActivity(intent);
-
                     String imagePath = (String) map.get(KCaptureCompleteListener.CAPTURE_MEDIA_IMAGE_PATH);
                     if (audioCaptured) {
                         String audioPath = (String) map.get(KCaptureCompleteListener.CAPTURE_MEDIA_AUDIO_PATH);
                     }
                     String mediaJSONUrl = (String) map.get(KCaptureCompleteListener.CAPTURE_MEDIA_JSON_URL);
                     Log.i("KRUMBS-CALLBACK", mediaJSONUrl + ", " + imagePath);
+
+                    Intent intent = new Intent(KrumbsActivity.this, GridHome.class);
+                    KrumbsActivity.this.finish();
+                    startActivity(intent);
                 } else if (completionState == CompletionState.CAPTURE_CANCELLED ||
                         completionState == CompletionState.SDK_NOT_INITIALIZED) {
                 }
+                Intent intent = new Intent(KrumbsActivity.this, GridHome.class);
+                KrumbsActivity.this.finish();
+                startActivity(intent);
             }
         });
     }

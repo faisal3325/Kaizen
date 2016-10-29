@@ -7,5 +7,9 @@
   "Traffic":  {
     "index": 2,
     "intents_file": "traffic.json"
+  },
+  "Safety":  {
+    "index": 3,
+    "intents_file": "safety.json"
   }
 }

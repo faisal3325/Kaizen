@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="match_parent">
 
     <com.mmi.MapmyIndiaMapView
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="1">
-
+        android:layout_height="match_parent">
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="61dp"
-            android:layout_marginRight="16dp"
             android:clickable="true"
             android:src="@drawable/fab_list"
             app:elevation="4dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="69dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="15dp" />
+            android:layout_alignParentEnd="true" />
     </com.mmi.MapmyIndiaMapView>
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

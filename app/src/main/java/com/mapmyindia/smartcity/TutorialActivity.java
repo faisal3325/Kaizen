@@ -33,11 +33,9 @@ public class TutorialActivity extends AppIntro  {
 
         // Instead of fragments, you can also use our default slide
         // Just set a title, description, background and image. AppIntro will do the rest.
-        addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart city application", R.drawable.police, Color.YELLOW));
-        addSlide(AppIntroFragment.newInstance("Kaizen", "A smart city ATM", R.drawable.atm_icon, Color.GREEN));
-        addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart city Fire station", R.drawable.firebrigade, Color.RED));
-        addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart city Bus Stop", R.drawable.bus_stop, Color.BLUE));
-        addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart city Cargo", R.drawable.cargo, Color.BLACK));
+        addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Application which connect the you to the Map where you can find out Nearest place details like Restaurants, Hospitals, Atm, Bus Stop..Etc", R.drawable.tut_nearby, Color.CYAN));
+        addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Issue Box where you can take a Real Time Image of Complaint with Exact Location will be uploaded to Admin Panel ", R.drawable.issues_icon, Color.GREEN));
+        addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Accident ", R.drawable.col, Color.RED));
         // OPTIONAL METHODS
         // Override bar/separator color.
         /*setBarColor(Color.parseColor("#3F51B5"));

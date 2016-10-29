@@ -21,7 +21,10 @@ public class CardLayout extends AppCompatActivity {
     RecyclerView.Adapter adapter;
     MapView mMapView;
     MapmyIndiaMapView mMap;
+    ArrayList<Double> placesCoordLat = new ArrayList<>();
+    ArrayList<Double> placesCoordLng = new ArrayList<>();
     ArrayList<String> placesList = new ArrayList<>();
+    Double lat, lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +38,17 @@ public class CardLayout extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         placesList = extras.getStringArrayList("Place Name");
+        placesCoordLat = (ArrayList<Double>) getIntent().getSerializableExtra("Place Lat");
+        placesCoordLng = (ArrayList<Double>) getIntent().getSerializableExtra("Place Lng");
+        lat = extras.getDouble("Lat");
+        lng = extras.getDouble("Lng");
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         Log.d("Card", String.valueOf(placesList.size()));
 
-        adapter = new RecyclerAdapter(placesList, CardLayout.this);
+        adapter = new RecyclerAdapter(placesList, lat, lng, placesCoordLat, placesCoordLng, CardLayout.this);
         recyclerView.setAdapter(adapter);
     }
 

@@ -1,12 +1,15 @@
 package com.mapmyindia.smartcity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 
 import com.mmi.LicenceManager;
 import com.mmi.MapView;
@@ -14,26 +17,37 @@ import com.mmi.MapmyIndiaMapView;
 import com.mmi.apis.place.Place;
 import com.mmi.apis.place.nearby.NearbyListener;
 import com.mmi.apis.place.nearby.NearbyManager;
+import com.mmi.apis.routing.Trip;
 import com.mmi.layers.BasicInfoWindow;
 import com.mmi.layers.Marker;
+import com.mmi.layers.PathOverlay;
 import com.mmi.util.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity  {
 
     MapView mMapView;
     MapmyIndiaMapView mMap;
-    Double lat, lng;
+    Double lat = null, lng;
     FloatingActionButton fab;
     ArrayList<String> placesList;
+    ArrayList<Double> placesCoordLat, placesCoordLng;
+    GeoPoint geoPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final String place, name;
+        LicenceManager.getInstance().setMapSDKKey("ff9s29wlvzbtpt8n617wgne2h87p85ny");
+        LicenceManager.getInstance().setRestAPIKey("pshb1b1s8m4qme7ey1t8r3h5mtutwnml");
+
+        setContentView(R.layout.activity_map);
+        this.getSupportActionBar().hide();
+
+        final String place;
+        String name;
         Bundle extras = getIntent().getExtras();
         place = extras.getString("Place");
         lat = extras.getDouble("Lat");
@@ -44,10 +58,11 @@ public class MapActivity extends AppCompatActivity {
         Log.d("Map", String.valueOf(lat));
         Log.d("Map", String.valueOf(lng));
 
-        LicenceManager.getInstance().setRestAPIKey("zr39sem7c8i2ulwifya84ifbgmuvnj4y");
-        LicenceManager.getInstance().setMapSDKKey("m68qj6audr8ko52ffbnis25lnygmtvls");
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_map);
+        mMap = (MapmyIndiaMapView) findViewById(R.id.map);
+        mMapView = mMap.getMapView();
+        GeoPoint geoPoint = new GeoPoint(lat, lng);
+        mMapView.setCenter(geoPoint);
+        mMapView.setZoom(10);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()   {
@@ -57,6 +72,10 @@ public class MapActivity extends AppCompatActivity {
                     Log.d("placesList", "First place");
                     Intent intent = new Intent(MapActivity.this, CardLayout.class);
                     intent.putExtra("Place Name", placesList);
+                    intent.putExtra("Place Lat", placesCoordLat);
+                    intent.putExtra("Place Lng", placesCoordLng);
+                    intent.putExtra("Lat", lat);
+                    intent.putExtra("Lng", lng);
                     startActivity(intent);
                 }
             }
@@ -65,9 +84,7 @@ public class MapActivity extends AppCompatActivity {
         if (Objects.equals(place, "search")) {
             Log.d("Map", "Search");
             Log.d("Marker", name);
-            mMap = (MapmyIndiaMapView) findViewById(R.id.map);
-            mMapView = mMap.getMapView();
-            GeoPoint geoPoint2 = new GeoPoint(lat, lng);
+            Log.d("MapView", lat + ", " + lng);
             BasicInfoWindow infoWindow = new BasicInfoWindow(R.layout.tooltip, mMapView);
             infoWindow.setTipColor(getResources().getColor(R.color.aquamarine));
 
@@ -75,46 +92,67 @@ public class MapActivity extends AppCompatActivity {
             marker.setTitle(name);
             marker.setDescription(name);
             marker.setSubDescription(name);
-            marker.setPosition(geoPoint2);
+            marker.setPosition(geoPoint);
             marker.setInfoWindow(infoWindow);
 
             mMapView.getOverlays().add(marker);
-            mMapView.setCenter(geoPoint2);
-            mMapView.setZoom(20);
-        } else if (Objects.equals(place, "krumbs")) {
-            Log.d("Map", "Krumbs");
-            mMap = (MapmyIndiaMapView) findViewById(R.id.map);
-            mMapView = mMap.getMapView();
-            GeoPoint geoPoint2 = new GeoPoint(lat, lng);
-            Marker marker = new Marker(mMapView);
-            marker.setPosition(geoPoint2);
-            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            mMapView.getOverlays().add(marker);
-            mMapView.setCenter(geoPoint2);
-            mMapView.setZoom(20);
-        } else if (!Objects.equals(place, "krumbs") || !Objects.equals(place, "search")) {
+            mMapView.setCenter(geoPoint);
+            mMapView.setZoom(10);
+            fab.setVisibility(View.INVISIBLE);
+        }   else if (!Objects.equals(place, "search") && (!Objects.equals(place, "route"))) {
             Log.d("Map", "Nearby");
-            mMap = (MapmyIndiaMapView) findViewById(R.id.map);
-            mMapView = mMap.getMapView();
-            GeoPoint geoPoint = new GeoPoint(lat, lng);
+            Log.d("Place", place);
+            Log.d("GeoPoint", String.valueOf(geoPoint));
             NearbyManager nearbyManager = new NearbyManager();
-            nearbyManager.getNearbyPlaces(null, place, geoPoint, 1, new NearbyListener() {
+            nearbyManager.getNearbyPlaces(null, place, new GeoPoint(lat, lng), 1, new NearbyListener() {
                 @Override
                 public void onResult(int code, final ArrayList places) {
                     //code:0 success, 1 exception, 2 no result
-                    if (code == 1) Log.d("Nearby", "Exception");
-                    else if (code == 2) Log.d("Nearby", "No result found");
-                    else if (code == 0) {
+                    Log.d("Nearby", "Function");
+                    if (code == 1) {
+                        Log.d("Nearby", "Exception");
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MapActivity.this, R.style.collDialog));
+                        builder.setTitle("Exception  Thrown")
+                                .setMessage("Either your daily API limit has been crossed or there might be some problem with the connecton. Please try again later.")
+                                .setCancelable(false)
+                                .setPositiveButton("Back", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent intent = new Intent(MapActivity.this, GridNearby.class);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .show();
+                    }   else if (code == 2) {
+                        Log.d("Nearby", "No result found");
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MapActivity.this, R.style.collDialog));
+                        builder.setTitle("No result found")
+                                .setMessage("No nearby places found around you.")
+                                .setCancelable(false)
+                                .setPositiveButton("Back", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent intent = new Intent(MapActivity.this, GridNearby.class);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .show();
+                    }   else if (code == 0) {
+                        Log.d("Nearby", "Function 2");
+                        placesList = new ArrayList<>();
+                        placesCoordLat = new ArrayList<>();
+                        placesCoordLng = new ArrayList<>();
+                        Place place1 = new Place();
                         for (int i = 0; i < places.size(); i++) {
                             Log.d("Nearby Places", String.valueOf(places.get(i)));
-                            Place place1 = (Place) places.get(i);
-                            placesList = new ArrayList<>();
+                            place1 = (Place) places.get(i);
                             placesList.add(place1.getDisplayName());
+                            placesCoordLat.add(place1.latitude);
+                            placesCoordLng.add(place1.longitude);
                             Log.d("Place", place1.getDisplayName());
+
                             BasicInfoWindow infoWindow = new BasicInfoWindow(R.layout.tooltip, mMapView);
                             infoWindow.setTipColor(getResources().getColor(R.color.aquamarine));
-                            Marker marker = new Marker(mMapView);
 
+                            Marker marker = new Marker(mMapView);
                             marker.setTitle(place1.getDisplayName());
                             marker.setDescription(place1.desc);
                             marker.setSubDescription(place1.more_info);
@@ -122,11 +160,39 @@ public class MapActivity extends AppCompatActivity {
                             marker.setPosition(place1.getGeoPoint());
                             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                             mMapView.getOverlays().add(marker);
-                            mMapView.setCenter(place1.getGeoPoint());
                         }
+                        mMapView.setCenter(place1.getGeoPoint());
                     }
                 }
             });
+        }   else if (Objects.equals(place, "route"))    {
+            Log.d("Map", "Route");
+            fab.setVisibility(View.INVISIBLE);
+            Trip t;
+            t = RecyclerAdapter.tripList.get(0);
+
+            ArrayList geoPoints = t.getPath();
+            PathOverlay pathOverlay = new PathOverlay(MapActivity.this);
+            pathOverlay.setColor(Color.BLUE);
+            pathOverlay.setWidth(10);
+            pathOverlay.setPoints(geoPoints);
+            pathOverlay.setTitle("Route");
+
+            BasicInfoWindow infoWindow = new BasicInfoWindow(R.layout.tooltip, mMapView);
+            infoWindow.setTipColor(getResources().getColor(R.color.aquamarine));
+            mMapView.getOverlays().add(pathOverlay);
+
+            Marker marker = new Marker(mMapView);
+            marker.setTitle("Your location");
+            marker.setInfoWindow(infoWindow);
+            marker.setPosition(new GeoPoint(lat, lng));
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            mMapView.getOverlays().add(marker);
+            mMapView.setCenter(geoPoint);
+
+            Log.d("Trip", String.valueOf(t.getAdvises()));
+            Log.d("Trip", String.valueOf(t.getDistance()));
+            Log.d("Trip", String.valueOf(t.getPath()));
         }
     }
 }

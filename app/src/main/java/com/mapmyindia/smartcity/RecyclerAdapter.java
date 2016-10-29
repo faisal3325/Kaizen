@@ -1,6 +1,8 @@
 package com.mapmyindia.smartcity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.mmi.apis.routing.DirectionListener;
+import com.mmi.apis.routing.DirectionManager;
+import com.mmi.apis.routing.Trip;
+import com.mmi.util.GeoPoint;
 
 import java.util.ArrayList;
 
@@ -17,11 +24,19 @@ import java.util.ArrayList;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private ArrayList<String> name = new ArrayList<>();
+    ArrayList<Double> placesCoordLat = new ArrayList<>();
+    ArrayList<Double> placesCoordLng = new ArrayList<>();
+    Double lat, lng;
     Context c;
+    public static ArrayList<Trip> tripList = new ArrayList<>();
 
-    public RecyclerAdapter(ArrayList<String> placeName, Context context) {
+    public RecyclerAdapter(ArrayList<String> placeName, Double lati, Double lngi, ArrayList<Double> placeLat, ArrayList<Double> placeLng, Context context) {
         Log.d("place", String.valueOf(placeName.size()));
         name = placeName;
+        placesCoordLat = placeLat;
+        placesCoordLng = placeLng;
+        lat = lati;
+        lng = lngi;
         c = context;
     }
 
@@ -39,12 +54,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         ImageView itemImage;
         TextView placesName;
+        FloatingActionButton fab_phone, fab_direction;
 
         ViewHolder(final View itemView) {
             super(itemView);
 
             itemImage = (ImageView) itemView.findViewById(R.id.item_image);
             placesName = (TextView) itemView.findViewById(R.id.item_title);
+            fab_phone = (FloatingActionButton) itemView.findViewById(R.id.fab_phone);
+            fab_direction = (FloatingActionButton) itemView.findViewById(R.id.fab_direction);
         }
     }
 
@@ -59,6 +77,51 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
         viewHolder.placesName.setText(name.get(i));
         viewHolder.itemImage.setImageResource(images[i]);
+        viewHolder.fab_direction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Clicked", "Direction");
+                DirectionManager directionManager =new DirectionManager();
+                directionManager.getDirections(new GeoPoint(lat, lng), new GeoPoint(placesCoordLat.get(i), placesCoordLng.get(i)), null, new DirectionListener() {
+                    @Override
+                    public void onResult(int code, final ArrayList<Trip> trips) {
+                        //code:0 success, 1 exception, 2 no result
+                        // array of Trip class. a trip represents a Route
+                        if(code == 0)   {
+                            Log.d("Trip", String.valueOf(trips.get(0)));
+                            Trip t;
+                            t = trips.get(0);
+                            tripList = trips;
+                            Intent intent = new Intent(c, MapActivity.class);
+                            intent.putExtra("Place", "route");
+                            intent.putExtra("Lat", lat);
+                            intent.putExtra("Lng", lng);
+                            intent.putExtra("Name", "ROUTE");
+                            c.startActivity(intent);
+                            /*ArrayList geoPoints = new ArrayList<>();
+                            geoPoints = t.getPath();
+                            PathOverlay pathOverlay = new PathOverlay(getActivity());
+                            pathOverlay.setColor(getResources().getColor(R.color.base_color));
+                            pathOverlay.setWidth(10);
+                            pathOverlay.setPoints(geoPoints);
+                            mMapView.getOverlays().add(pathOverlay);
+                            mMapView.invalidate();*/
+
+                            Log.d("Trip", String.valueOf(t.getAdvises()));
+                            Log.d("Trip", String.valueOf(t.getDistance()));
+                            Log.d("Trip", String.valueOf(t.getPath()));
+                        }
+                    }
+
+                });
+            }
+        });
+        viewHolder.fab_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Clicked", "Phone");
+            }
+        });
     }
 
     @Override

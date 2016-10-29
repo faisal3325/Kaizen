@@ -45,6 +45,7 @@
         </activity>
         <activity android:name=".Search" />
         <activity android:name=".CardLayout" />
+        <activity android:name=".KrumbsReport" />
     </application>
 
 </manifest>

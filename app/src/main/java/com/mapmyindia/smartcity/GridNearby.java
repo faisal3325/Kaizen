@@ -25,20 +25,39 @@ import com.google.android.gms.location.LocationServices;
 
 public class GridNearby extends Activity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks   {
     GridView grid;
+
+    String[] textlist = {
+            "Colleges",
+            "Hospitals",
+            "Government Offices",
+            "Police",
+            "Atm",
+            "Metro Station",
+            "Public Toilets",
+            "Restaurants",
+            "Bus Stop",
+            "Courier Service",
+            "Cinemas",
+            "Market"
+    };
+
     int[] imageId = {
-            R.drawable.firebrigade,
+            R.drawable.colleges,
             R.drawable.hospital,
+            R.drawable.gov_office,
             R.drawable.police,
             R.drawable.atm_icon,
+            R.drawable.metro,
             R.drawable.public_toilets,
             R.drawable.restaurant,
             R.drawable.bus_stop,
-            R.drawable.cargo,
-            R.drawable.metro
+            R.drawable.courier,
+            R.drawable.cinema,
+            R.drawable.market
     };
+
     GoogleApiClient mapGoogleApiClient;
-    private double latiUser;
-    private double lngiUser;
+    private Double latiUser, lngiUser;
     private static final int PERMISSION_REQUEST_CODE_LOCATION = 1;
 
     @Override
@@ -51,22 +70,21 @@ public class GridNearby extends Activity implements GoogleApiClient.OnConnection
         else
             requestPermission(android.Manifest.permission.ACCESS_FINE_LOCATION, PERMISSION_REQUEST_CODE_LOCATION, getApplicationContext(), GridNearby.this);
 
-        CustomGridNearby adapter = new CustomGridNearby(GridNearby.this,  imageId);
+        CustomGridNearby adapter = new CustomGridNearby(GridNearby.this, imageId,textlist);
         grid=(GridView)findViewById(R.id.grid);
         grid.setAdapter(adapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent;
                 switch(position) {
                     case 0:
-                        Log.d("Grid", "Clicked on first");
+                        Log.d("Grid", "Clicked on second");
                         intent = new Intent(GridNearby.this , MapActivity.class);
-                        intent.putExtra("Place", "firestation");
+                        intent.putExtra("Place", "college");
                         intent.putExtra("Lat", latiUser);
                         intent.putExtra("Lng", lngiUser);
-                        intent.putExtra("Name", "firestation");
+                        intent.putExtra("Name", "college");
                         startActivity(intent);
                         break;
                     case 1:
@@ -75,11 +93,19 @@ public class GridNearby extends Activity implements GoogleApiClient.OnConnection
                         intent.putExtra("Place", "hospital");
                         intent.putExtra("Lat", latiUser);
                         intent.putExtra("Lng", lngiUser);
-                        Log.d("Latitude: " + latiUser, "Longitude: " + lngiUser);
                         intent.putExtra("Name", "hospital");
                         startActivity(intent);
                         break;
                     case 2:
+                        Log.d("Grid", "Clicked on third!");
+                        intent = new Intent(GridNearby.this , MapActivity.class);
+                        intent.putExtra("Place", "government");
+                        intent.putExtra("Lat", latiUser);
+                        intent.putExtra("Lng", lngiUser);
+                        intent.putExtra("Name", "government");
+                        startActivity(intent);
+                        break;
+                    case 3:
                         Log.d("Grid", "Clicked on third!");
                         intent = new Intent(GridNearby.this , MapActivity.class);
                         intent.putExtra("Place", "police");
@@ -88,7 +114,7 @@ public class GridNearby extends Activity implements GoogleApiClient.OnConnection
                         intent.putExtra("Name", "police");
                         startActivity(intent);
                         break;
-                    case 3:
+                    case 4:
                         Log.d("Grid", "Clicked on third!");
                         intent = new Intent(GridNearby.this , MapActivity.class);
                         intent.putExtra("Place", "atm");
@@ -97,43 +123,7 @@ public class GridNearby extends Activity implements GoogleApiClient.OnConnection
                         intent.putExtra("Name", "atm");
                         startActivity(intent);
                         break;
-                    case 4:
-                        Log.d("Grid", "Clicked on third!");
-                        intent = new Intent(GridNearby.this , MapActivity.class);
-                        intent.putExtra("Place", "toilets");
-                        intent.putExtra("Lat", latiUser);
-                        intent.putExtra("Lng", lngiUser);
-                        intent.putExtra("Name", "toilets");
-                        startActivity(intent);
-                        break;
                     case 5:
-                        Log.d("Grid", "Clicked on third!");
-                        intent = new Intent(GridNearby.this , MapActivity.class);
-                        intent.putExtra("Place", "restaurants");
-                        intent.putExtra("Lat", latiUser);
-                        intent.putExtra("Lng", lngiUser);
-                        intent.putExtra("Name", "restaurants");
-                        startActivity(intent);
-                        break;
-                    case 6:
-                        Log.d("Grid", "Clicked on third!");
-                        intent = new Intent(GridNearby.this , MapActivity.class);
-                        intent.putExtra("Place", "bus");
-                        intent.putExtra("Lat", latiUser);
-                        intent.putExtra("Lng", lngiUser);
-                        intent.putExtra("Name", "bus");
-                        startActivity(intent);
-                        break;
-                    case 7:
-                        Log.d("Grid", "Clicked on third!");
-                        intent = new Intent(GridNearby.this , MapActivity.class);
-                        intent.putExtra("Place", "cargo");
-                        intent.putExtra("Lat", latiUser);
-                        intent.putExtra("Lng", lngiUser);
-                        intent.putExtra("Name", "cargo");
-                        startActivity(intent);
-                        break;
-                    case 8:
                         Log.d("Grid", "Clicked on third!");
                         intent = new Intent(GridNearby.this , MapActivity.class);
                         intent.putExtra("Place", "metro");
@@ -142,10 +132,63 @@ public class GridNearby extends Activity implements GoogleApiClient.OnConnection
                         intent.putExtra("Name", "metro");
                         startActivity(intent);
                         break;
+                    case 6:
+                        Log.d("Grid", "Clicked on third!");
+                        intent = new Intent(GridNearby.this , MapActivity.class);
+                        intent.putExtra("Place", "toilets");
+                        intent.putExtra("Lat", latiUser);
+                        intent.putExtra("Lng", lngiUser);
+                        intent.putExtra("Name", "toilets");
+                        startActivity(intent);
+                        break;
+                    case 7:
+                        Log.d("Grid", "Clicked on third!");
+                        intent = new Intent(GridNearby.this , MapActivity.class);
+                        intent.putExtra("Place", "restaurants");
+                        intent.putExtra("Lat", latiUser);
+                        intent.putExtra("Lng", lngiUser);
+                        intent.putExtra("Name", "restaurants");
+                        startActivity(intent);
+                        break;
+                    case 8:
+                        Log.d("Grid", "Clicked on third!");
+                        intent = new Intent(GridNearby.this , MapActivity.class);
+                        intent.putExtra("Place", "bus");
+                        intent.putExtra("Lat", latiUser);
+                        intent.putExtra("Lng", lngiUser);
+                        intent.putExtra("Name", "bus");
+                        startActivity(intent);
+                        break;
+                    case 9:
+                        Log.d("Grid", "Clicked on third!");
+                        intent = new Intent(GridNearby.this , MapActivity.class);
+                        intent.putExtra("Place", "courier");
+                        intent.putExtra("Lat", latiUser);
+                        intent.putExtra("Lng", lngiUser);
+                        intent.putExtra("Name", "courier");
+                        startActivity(intent);
+                        break;
+                    case 10:
+                        Log.d("Grid", "Clicked on third!");
+                        intent = new Intent(GridNearby.this , MapActivity.class);
+                        intent.putExtra("Place", "cinema");
+                        intent.putExtra("Lat", latiUser);
+                        intent.putExtra("Lng", lngiUser);
+                        intent.putExtra("Name", "cinema");
+                        startActivity(intent);
+                        break;
+                    case 11:
+                        Log.d("Grid", "Clicked on third!");
+                        intent = new Intent(GridNearby.this , MapActivity.class);
+                        intent.putExtra("Place", "market");
+                        intent.putExtra("Lat", latiUser);
+                        intent.putExtra("Lng", lngiUser);
+                        intent.putExtra("Name", "market");
+                        startActivity(intent);
+                        break;
                 }
             }
         });
-
     }
 
     public void requestPermission(String strPermission, int perCode, Context _c, Activity _a) {
@@ -158,8 +201,7 @@ public class GridNearby extends Activity implements GoogleApiClient.OnConnection
 
     public static boolean checkPermission(String strPermission, Context _c, Activity _a) {
         int result = ContextCompat.checkSelfPermission(_c, strPermission);
-        if (result == PackageManager.PERMISSION_GRANTED)    return true;
-        else  return false;
+        return result == PackageManager.PERMISSION_GRANTED;
     }
 
     @Override

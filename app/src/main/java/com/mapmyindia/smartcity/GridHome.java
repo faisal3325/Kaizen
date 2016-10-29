@@ -28,7 +28,8 @@ public class GridHome extends AppCompatActivity {
     int[] imageId = {
             R.drawable.nearby,
             R.drawable.issues_icon,
-            R.drawable.col
+            R.drawable.col,
+            R.drawable.gov_office
     };
 
     @Override
@@ -123,6 +124,10 @@ public class GridHome extends AppCompatActivity {
                                     }
                                 })
                                 .show();
+                        break;
+                    case 3:
+                        Intent intent = new Intent(GridHome.this, KrumbsReport.class);
+                        startActivity(intent);
                         break;
                 }
             }
