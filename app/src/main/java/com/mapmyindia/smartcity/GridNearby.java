@@ -74,6 +74,7 @@ public class GridNearby extends Activity implements GoogleApiClient.OnConnection
         grid=(GridView)findViewById(R.id.grid);
         grid.setAdapter(adapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent;
@@ -201,7 +202,8 @@ public class GridNearby extends Activity implements GoogleApiClient.OnConnection
 
     public static boolean checkPermission(String strPermission, Context _c, Activity _a) {
         int result = ContextCompat.checkSelfPermission(_c, strPermission);
-        return result == PackageManager.PERMISSION_GRANTED;
+        if (result == PackageManager.PERMISSION_GRANTED)    return true;
+        else  return false;
     }
 
     @Override

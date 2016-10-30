@@ -61,7 +61,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
             itemImage = (ImageView) itemView.findViewById(R.id.item_image);
             placesName = (TextView) itemView.findViewById(R.id.item_title);
-            fab_phone = (FloatingActionButton) itemView.findViewById(R.id.fab_phone);
             fab_direction = (FloatingActionButton) itemView.findViewById(R.id.fab_direction);
         }
     }
@@ -89,8 +88,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                         // array of Trip class. a trip represents a Route
                         if(code == 0)   {
                             Log.d("Trip", String.valueOf(trips.get(0)));
-                            Trip t;
-                            t = trips.get(0);
                             tripList = trips;
                             Intent intent = new Intent(c, MapActivity.class);
                             intent.putExtra("Place", "route");
@@ -98,18 +95,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                             intent.putExtra("Lng", lng);
                             intent.putExtra("Name", "ROUTE");
                             c.startActivity(intent);
-                            /*ArrayList geoPoints = new ArrayList<>();
-                            geoPoints = t.getPath();
-                            PathOverlay pathOverlay = new PathOverlay(getActivity());
-                            pathOverlay.setColor(getResources().getColor(R.color.base_color));
-                            pathOverlay.setWidth(10);
-                            pathOverlay.setPoints(geoPoints);
-                            mMapView.getOverlays().add(pathOverlay);
-                            mMapView.invalidate();*/
-
-                            Log.d("Trip", String.valueOf(t.getAdvises()));
-                            Log.d("Trip", String.valueOf(t.getDistance()));
-                            Log.d("Trip", String.valueOf(t.getPath()));
                         }
                     }
 

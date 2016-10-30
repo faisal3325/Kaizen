@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    app:layout_anchorGravity=""
+    android:background="@drawable/bg">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/rotate1"
+        android:id="@+id/imageView3" />
+
+    <TextView
+        android:text="@string/kaizen"
+        android:gravity="center"
+        android:foregroundGravity="center"
+        android:textColor="#29abe2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        app:layout_anchor="@+id/imageView3"
+        app:layout_anchorGravity="center_vertical|center_horizontal"
+        android:layout_gravity="top|center_horizontal"
+        android:textAlignment="center"
+        android:textAppearance="@style/AppIntroDefaultHeading"
+        android:fontFamily="cursive"
+        android:textStyle="bold"
+        android:textSize="55sp" />
+</android.support.design.widget.CoordinatorLayout>

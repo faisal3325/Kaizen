@@ -8,7 +8,7 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:orientation="vertical"
-    android:background="#FF9100"
+    android:background="#FF9800"
     tools:context=".SplashActivity">
 
     <LinearLayout
@@ -47,7 +47,7 @@
     </LinearLayout>
 
     <GridView
-        android:numColumns="3"
+        android:numColumns="2"
         android:gravity="center"
         android:columnWidth="100dp"
         android:stretchMode="columnWidth"

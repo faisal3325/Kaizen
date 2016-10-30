@@ -46,15 +46,6 @@
                 android:layout_gravity="bottom"
                 android:gravity="bottom">
                 <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab_phone"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:clickable="true"
-                    android:src="@drawable/phone"
-                    android:layout_gravity="bottom"
-                    app:elevation="4dp"/>
-
-                <android.support.design.widget.FloatingActionButton
                     android:id="@+id/fab_direction"
                     android:layout_width="45dp"
                     android:layout_height="45dp"

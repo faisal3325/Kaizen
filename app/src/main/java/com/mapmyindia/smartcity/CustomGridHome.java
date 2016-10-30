@@ -10,15 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 class CustomGridHome extends BaseAdapter{
     private Context mContext;
     private final int[] Imageid;
+    private final String[] textlist;
 
 
-    CustomGridHome(Context c, int[] Imageid) {
+    CustomGridHome(Context c, int[] Imageid1, String[] gridtext) {
         mContext = c;
-        this.Imageid = Imageid;
+        this.Imageid = Imageid1;
+        this.textlist = gridtext;
 
     }
 
@@ -46,6 +49,9 @@ class CustomGridHome extends BaseAdapter{
             grid = inflater.inflate(R.layout.custom_grid_home, null);
             ImageView imageView = (ImageView)grid.findViewById(R.id.grid_image);
             imageView.setImageResource(Imageid[position]);
+            TextView textView = (TextView)grid.findViewById(R.id.texthome);
+            textView.setText(textlist[position]);
+
         } else {
             grid = convertView;
         }
