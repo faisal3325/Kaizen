@@ -54,7 +54,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         ImageView itemImage;
         TextView placesName;
-        FloatingActionButton fab_phone, fab_direction;
+        FloatingActionButton fab_direction;
 
         ViewHolder(final View itemView) {
             super(itemView);
@@ -99,12 +99,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     }
 
                 });
-            }
-        });
-        viewHolder.fab_phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Clicked", "Phone");
             }
         });
     }

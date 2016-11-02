@@ -38,7 +38,7 @@ public class GridHome extends AppCompatActivity {
 
     String[] gridtext = {
             "Nearby",
-             "Issues",
+            "Issues",
             "Collision Detection",
             "Issues Statistics"
     };

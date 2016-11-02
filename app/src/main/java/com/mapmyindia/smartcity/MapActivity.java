@@ -1,13 +1,11 @@
 package com.mapmyindia.smartcity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.View;
 
@@ -40,8 +38,8 @@ public class MapActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LicenceManager.getInstance().setMapSDKKey("ff9s29wlvzbtpt8n617wgne2h87p85ny");
-        LicenceManager.getInstance().setRestAPIKey("pshb1b1s8m4qme7ey1t8r3h5mtutwnml");
+        LicenceManager.getInstance().setMapSDKKey("m68qj6audr8ko52ffbnis25lnygmtvls");
+        LicenceManager.getInstance().setRestAPIKey("zr39sem7c8i2ulwifya84ifbgmuvnj4y");
 
         setContentView(R.layout.activity_map);
         this.getSupportActionBar().hide();
@@ -61,8 +59,8 @@ public class MapActivity extends AppCompatActivity  {
         mMap = (MapmyIndiaMapView) findViewById(R.id.map);
         mMapView = mMap.getMapView();
         GeoPoint geoPoint = new GeoPoint(lat, lng);
-        mMapView.setCenter(geoPoint);
         mMapView.setZoom(10);
+        mMapView.setCenter(geoPoint);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()   {
@@ -96,8 +94,9 @@ public class MapActivity extends AppCompatActivity  {
             marker.setInfoWindow(infoWindow);
 
             mMapView.getOverlays().add(marker);
-            mMapView.setCenter(geoPoint);
             mMapView.setZoom(10);
+            mMapView.setCenter(geoPoint);
+
             fab.setVisibility(View.INVISIBLE);
         }   else if (!Objects.equals(place, "search") && (!Objects.equals(place, "route"))) {
             Log.d("Map", "Nearby");
@@ -111,30 +110,16 @@ public class MapActivity extends AppCompatActivity  {
                     Log.d("Nearby", "Function");
                     if (code == 1) {
                         Log.d("Nearby", "Exception");
-                        final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MapActivity.this, R.style.collDialog));
-                        builder.setTitle("Exception  Thrown")
-                                .setMessage("Either your daily API limit has been crossed or there might be some problem with the connecton. Please try again later.")
-                                .setCancelable(false)
-                                .setPositiveButton("Back", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        Intent intent = new Intent(MapActivity.this, GridNearby.class);
-                                        startActivity(intent);
-                                    }
-                                })
-                                .show();
+                        Looper.prepare();
+                        Intent intent = new Intent(MapActivity.this, GridNearby.class);
+                        startActivity(intent);
+                        MapActivity.this.finish();
                     }   else if (code == 2) {
                         Log.d("Nearby", "No result found");
-                        final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MapActivity.this, R.style.collDialog));
-                        builder.setTitle("No result found")
-                                .setMessage("No nearby places found around you.")
-                                .setCancelable(false)
-                                .setPositiveButton("Back", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        Intent intent = new Intent(MapActivity.this, GridNearby.class);
-                                        startActivity(intent);
-                                    }
-                                })
-                                .show();
+                        Looper.prepare();
+                        Intent intent = new Intent(MapActivity.this, GridNearby.class);
+                        startActivity(intent);
+                        MapActivity.this.finish();
                     }   else if (code == 0) {
                         Log.d("Nearby", "Function 2");
                         placesList = new ArrayList<>();
@@ -188,6 +173,7 @@ public class MapActivity extends AppCompatActivity  {
             marker.setPosition(new GeoPoint(lat, lng));
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             mMapView.getOverlays().add(marker);
+            mMapView.setZoom(10);
             mMapView.setCenter(geoPoint);
 
             Log.d("Trip", String.valueOf(t.getAdvises()));

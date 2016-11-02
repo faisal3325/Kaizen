@@ -24,7 +24,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 public class GridNearby extends Activity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks   {
+
     GridView grid;
+    GoogleApiClient mapGoogleApiClient;
+    private Double latiUser, lngiUser;
+    private static final int PERMISSION_REQUEST_CODE_LOCATION = 1;
 
     String[] textlist = {
             "Colleges",
@@ -55,10 +59,6 @@ public class GridNearby extends Activity implements GoogleApiClient.OnConnection
             R.drawable.cinema,
             R.drawable.market
     };
-
-    GoogleApiClient mapGoogleApiClient;
-    private Double latiUser, lngiUser;
-    private static final int PERMISSION_REQUEST_CODE_LOCATION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
