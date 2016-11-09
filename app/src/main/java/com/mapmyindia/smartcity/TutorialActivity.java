@@ -55,6 +55,7 @@ The following modules have been implemented in our application:
 
         Intent intent = new Intent(this, GridHome.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -69,6 +70,7 @@ The following modules have been implemented in our application:
 
         Intent intent = new Intent(this, GridHome.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

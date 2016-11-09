@@ -6,7 +6,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@drawable/nearbybc">
+    android:background="@drawable/img_bg2">
     <GridView
         android:numColumns="3"
         android:gravity="center"

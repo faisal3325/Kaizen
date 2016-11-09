@@ -19,6 +19,7 @@
         android:id="@+id/grid_text"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textSize="15sp"
-        />
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="15sp"/>
 </LinearLayout>

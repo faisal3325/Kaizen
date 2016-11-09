@@ -18,12 +18,14 @@ public class SplashActivity extends AppCompatActivity   {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
+
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
         if (settings.getString("Seen", "").equals("Seen")) {
             Log.d("Splash", "Activity");
             Intent intent = new Intent(SplashActivity.this, GridHome.class);
             startActivity(intent);
+            finish();
         }   else    {
             Intent intent = new Intent(SplashActivity.this, TutorialActivity.class);
             startActivity(intent);

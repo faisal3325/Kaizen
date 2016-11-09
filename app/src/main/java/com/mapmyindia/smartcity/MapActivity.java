@@ -32,7 +32,6 @@ public class MapActivity extends AppCompatActivity  {
     FloatingActionButton fab;
     ArrayList<String> placesList;
     ArrayList<Double> placesCoordLat, placesCoordLng;
-    GeoPoint geoPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +73,7 @@ public class MapActivity extends AppCompatActivity  {
                     intent.putExtra("Place Lng", placesCoordLng);
                     intent.putExtra("Lat", lat);
                     intent.putExtra("Lng", lng);
+                    intent.putExtra("Type", place);
                     startActivity(intent);
                 }
             }

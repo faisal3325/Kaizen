@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.mapmyindia.smartcity">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -14,7 +15,8 @@
     <application
         android:name=".KrumbsCamera"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        tools:replace="android:icon"
+        android:icon="@mipmap/ic_launcher1"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -33,8 +35,11 @@
         <activity android:name=".KrumbsActivity" />
         <activity android:name=".GridHome" />
         <activity android:name=".GridNearby" />
-        <service android:name="com.mapmyindia.smartcity.SensorService"
+
+        <service
+            android:name=".SensorService"
             android:enabled="true" />
+
         <activity android:name=".TutorialActivity" />
         <activity
             android:name=".SplashActivity"
@@ -48,5 +53,7 @@
         <activity android:name=".Search" />
         <activity android:name=".CardLayout" />
         <activity android:name=".KrumbsReport" />
+        <activity android:name=".NewsActivity"></activity>
     </application>
+
 </manifest>

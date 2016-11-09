@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/grid_image"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="center"/>
 
     <TextView
@@ -20,6 +20,8 @@
         android:id="@+id/texthome"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textSize="20sp" />
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 
 </LinearLayout>

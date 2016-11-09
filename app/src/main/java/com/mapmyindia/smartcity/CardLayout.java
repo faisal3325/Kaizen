@@ -24,6 +24,7 @@ public class CardLayout extends AppCompatActivity {
     ArrayList<Double> placesCoordLat = new ArrayList<>();
     ArrayList<Double> placesCoordLng = new ArrayList<>();
     ArrayList<String> placesList = new ArrayList<>();
+    String type;
     Double lat, lng;
 
     @Override
@@ -42,13 +43,14 @@ public class CardLayout extends AppCompatActivity {
         placesCoordLng = (ArrayList<Double>) getIntent().getSerializableExtra("Place Lng");
         lat = extras.getDouble("Lat");
         lng = extras.getDouble("Lng");
+        type = extras.getString("Type");
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         Log.d("Card", String.valueOf(placesList.size()));
 
-        adapter = new RecyclerAdapter(placesList, lat, lng, placesCoordLat, placesCoordLng, CardLayout.this);
+        adapter = new RecyclerAdapter(type, placesList, lat, lng, placesCoordLat, placesCoordLng, CardLayout.this);
         recyclerView.setAdapter(adapter);
     }
 
