@@ -51,6 +51,7 @@ public class GridHome extends AppCompatActivity {
             R.drawable.nearby,
             R.drawable.issues_icon,
             R.drawable.col,
+            R.drawable.report,
             R.drawable.report
     };
 
@@ -58,7 +59,8 @@ public class GridHome extends AppCompatActivity {
             "Nearby",
             "Issues",
             "Collision Detection",
-            "Issues Statistics"
+            "Issues Statistics",
+            "Sound Pollution"
     };
 
     @Override
@@ -263,6 +265,10 @@ public class GridHome extends AppCompatActivity {
                         break;
                     case 3:
                         Intent intent = new Intent(GridHome.this, KrumbsReport.class);
+                        startActivity(intent);
+                        break;
+                    case 4:
+                        intent = new Intent(GridHome.this, Sound.class);
                         startActivity(intent);
                         break;
                 }

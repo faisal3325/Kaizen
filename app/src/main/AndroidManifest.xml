@@ -4,6 +4,7 @@
     package="com.mapmyindia.smartcity">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,11 +16,11 @@
     <application
         android:name=".KrumbsCamera"
         android:allowBackup="true"
-        tools:replace="android:icon"
         android:icon="@mipmap/ic_launcher1"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
         <meta-data
             android:name="io.krumbs.sdk.APPLICATION_ID"
             android:value="@string/krumbssdk_app_id" />
@@ -53,7 +54,8 @@
         <activity android:name=".Search" />
         <activity android:name=".CardLayout" />
         <activity android:name=".KrumbsReport" />
-        <activity android:name=".NewsActivity"></activity>
+        <activity android:name=".NewsActivity" />
+        <activity android:name=".Sound"></activity>
     </application>
 
 </manifest>
