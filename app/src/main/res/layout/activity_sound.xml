@@ -10,11 +10,11 @@
     android:paddingRight="8dp"
     android:orientation="vertical"
     android:background="@drawable/img_bg2"
-    tools:context="com.mapmyindia.smartcity.Sound"
-    android:weightSum="1">
+    android:gravity="center"
+    tools:context="com.mapmyindia.smartcity.Sound">
 
     <TextView
-        android:text="____"
+        android:text=""
         android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

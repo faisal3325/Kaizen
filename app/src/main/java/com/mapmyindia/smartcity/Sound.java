@@ -54,10 +54,6 @@ public class Sound extends Activity {
                             listenButton.setImageResource(R.drawable.start_button);
                         }
                     }.start();
-                } else if(listening)   {
-                        listening = false;
-                        stopRecorder();
-                        listenButton.setImageResource(R.drawable.start_button);
                 }
             }
         });
@@ -105,17 +101,19 @@ public class Sound extends Activity {
     }
 
     public void updateTv(){
-        mStatusView.setText(avgValue() + " dB");
+        Double a = avgValue();
+        Integer i = Integer.valueOf(a.intValue());
+        mStatusView.setText(i + " dB");
     }
 
     public double avgValue()  {
-        for(int i = 1; i < 10; i++)
+        for(int i = 0; i < values.size(); i++)
             sum = sum + values.get(i);
         return sum / 10;
     }
 
     public void soundDb(double ampl)    {
-        values.add(20 * Math.log10(getAmplitudeEMA() / ampl));
+        if(20 * Math.log10(getAmplitudeEMA() / ampl) > 0)   values.add(20 * Math.log10(getAmplitudeEMA() / ampl));
         Log.d("Sound", String.valueOf(20 * Math.log10(getAmplitudeEMA() / ampl)));
     }
 
