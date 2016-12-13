@@ -15,5 +15,5 @@
     <string name="emergency_contact_3">Emergency Contact 3</string>
     <string name="emergency_contact_2">Emergency Contact 2</string>
     <string name="kaizen">Kaizen</string>
-    <string name="sound_desc">Press on the button below and wait for 10 seconds to record the sound. This will calculate the noise level in your environment and will report it on the map.</string>
+    <string name="sound_desc">Press on the button below and wait for 10 seconds to record the sound. This will calculate the noise level in your environment.</string>
 </resources>

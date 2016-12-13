@@ -1,15 +1,19 @@
 package com.mapmyindia.smartcity;
 
+import android.Manifest;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
@@ -32,35 +36,36 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GridHome extends AppCompatActivity {
 
     Intent intent;
     TextView autoComplete;
     GridView grid;
-    ImageView dropbox;
+    ImageView issues;
     CardView card;
     ProgressBarCircularIndeterminate progress;
     LinearLayout search, weatherLayout;
-    public static final String PREFS_NAME = "CollisionPrefs";
-    public static final String PREFS_NUM = "AccidentPrefs";
+    public static final String PREFS_NAME = "CollisionPrefs", PREFS_NUM = "AccidentPrefs";
     public static boolean col  = false, flag = false;
     Double lat, lng;
     String locationKey, city;
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
     int[] imageId = {
             R.drawable.nearby,
-            R.drawable.issues_icon,
-            R.drawable.col,
             R.drawable.report,
+            R.drawable.col,
             R.drawable.report
     };
 
     String[] gridtext = {
             "Nearby",
-            "Issues",
+            "Sound Pollution",
             "Collision Detection",
-            "Issues Statistics",
-            "Sound Pollution"
+            "Issues Statistics"
     };
 
     @Override
@@ -68,14 +73,17 @@ public class GridHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid_home);
 
-        dropbox = (ImageView) findViewById(R.id.imageView3);
+        issues = (ImageView) findViewById(R.id.imageView4);
         weatherLayout = (LinearLayout) findViewById(R.id.weather);
         progress = (ProgressBarCircularIndeterminate) findViewById(R.id.progressBarCircularIndeterminate);
         card = (CardView) findViewById(R.id.card_view);
+
+        progress.setVisibility(View.VISIBLE);
         weatherLayout.setVisibility(View.INVISIBLE);
 
-        GPSTracker gpsTracker = new GPSTracker(this);
+        reCheckPermissions();
 
+        GPSTracker gpsTracker = new GPSTracker(this);
         if(!gpsTracker.canGetLocation()) {
             gpsTracker.showSettingsAlert();
         }   else {
@@ -139,10 +147,11 @@ public class GridHome extends AppCompatActivity {
             }
         });
 
-        dropbox.setOnClickListener(new View.OnClickListener() {
+        issues.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                intent = new Intent(GridHome.this, KrumbsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -178,7 +187,7 @@ public class GridHome extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case 1:
-                        intent = new Intent(GridHome.this, KrumbsActivity.class);
+                        intent = new Intent(GridHome.this, Sound.class);
                         startActivity(intent);
                         break;
                     case 2:
@@ -234,7 +243,7 @@ public class GridHome extends AppCompatActivity {
                                                                     editor.putString("Num2", String.valueOf(emergency2.getText()));
                                                                     editor.putString("Num3", String.valueOf(emergency3.getText()));
                                                                     editor.apply();
-                                                                }   else    Toast.makeText(GridHome.this, "Please enter a valid 10 digit number.", Toast.LENGTH_SHORT).show();
+                                                                }   else    Toast.makeText(GridHome.this, "Please enter a valid 10 digit number and enter 3 emergency contacts.", Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
                                         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -243,13 +252,17 @@ public class GridHome extends AppCompatActivity {
                                 })
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
+                                        SharedPreferences sh = getSharedPreferences(PREFS_NUM, 0);
+
                                         if(checkBox.isChecked()) {
-                                            SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-                                            SharedPreferences.Editor editor = settings.edit();
-                                            editor.putString("Yes", "Yes").apply();
-                                            startService(new Intent(getApplicationContext(), SensorService.class));
-                                            Log.d("Sensor", "true");
-                                            col = true;
+                                            if(sh.getString("Num1", null) != null) {
+                                                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                                                SharedPreferences.Editor editor = settings.edit();
+                                                editor.putString("Yes", "Yes").apply();
+                                                startService(new Intent(getApplicationContext(), SensorService.class));
+                                                Log.d("Sensor", "true");
+                                                col = true;
+                                            }   else    Toast.makeText(GridHome.this, "Please set Emergency contacts before enabling Collision Detector!", Toast.LENGTH_SHORT).show();
                                         }   else    {
                                             SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
                                             SharedPreferences.Editor editor = settings.edit();
@@ -267,13 +280,54 @@ public class GridHome extends AppCompatActivity {
                         Intent intent = new Intent(GridHome.this, KrumbsReport.class);
                         startActivity(intent);
                         break;
-                    case 4:
-                        intent = new Intent(GridHome.this, Sound.class);
-                        startActivity(intent);
-                        break;
                 }
             }
         });
+    }
+
+
+    private void reCheckPermissions() {
+        if(!checkAndRequestPermissions()) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder
+                    .setMessage("Please allow all permissions for this app to work!")
+                    .setTitle("Permissions Check")
+                    .setCancelable(false)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                }
+                            }
+                    );
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+    }
+
+    private  boolean checkAndRequestPermissions() {
+        int permissionCamera = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA);
+        int permissionMike = ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO);
+        int permissionSMS = ContextCompat.checkSelfPermission(this, android.Manifest.permission.SEND_SMS);
+        int locationPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        int permissionStorage = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        if (locationPermission != PackageManager.PERMISSION_GRANTED)
+            listPermissionsNeeded.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionSMS != PackageManager.PERMISSION_GRANTED)
+            listPermissionsNeeded.add(android.Manifest.permission.SEND_SMS);
+        if (permissionCamera != PackageManager.PERMISSION_GRANTED)
+            listPermissionsNeeded.add(android.Manifest.permission.CAMERA);
+        if (permissionMike != PackageManager.PERMISSION_GRANTED)
+            listPermissionsNeeded.add(android.Manifest.permission.RECORD_AUDIO);
+        if (permissionStorage != PackageManager.PERMISSION_GRANTED)
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),REQUEST_ID_MULTIPLE_PERMISSIONS);
+            return true;
+        }
+        return true;
     }
 
     private class getLocationKey extends AsyncTask<Void, Void, Void> {
@@ -411,21 +465,24 @@ public class GridHome extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+
             // Dismiss the progress dialog
             progress.setVisibility(View.INVISIBLE);
             weatherLayout.setVisibility(View.VISIBLE);
-            int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+            if(uri != null) {
+                int imageResource = getResources().getIdentifier(uri, null, getPackageName());
 
-            ImageView weatherIcon = (ImageView) findViewById(R.id.weatherIcon);
-            TextView weatherCond = (TextView) findViewById(R.id.weatherCondition);
-            TextView tempe = (TextView) findViewById(R.id.temp);
-            TextView city1 = (TextView) findViewById(R.id.textView3);
+                ImageView weatherIcon = (ImageView) findViewById(R.id.weatherIcon);
+                TextView weatherCond = (TextView) findViewById(R.id.weatherCondition);
+                TextView tempe = (TextView) findViewById(R.id.temp);
+                TextView city1 = (TextView) findViewById(R.id.textView3);
 
-            weatherCond.setText(wText);
-            city1.setText(city);
-            tempe.setText(tempValue + (char) 0x00B0 + "C");
-            Drawable res = getResources().getDrawable(imageResource);
-            weatherIcon.setImageDrawable(res);
+                weatherCond.setText(wText);
+                city1.setText(city);
+                tempe.setText(tempValue + (char) 0x00B0 + "C");
+                Drawable res = getResources().getDrawable(imageResource);
+                weatherIcon.setImageDrawable(res);
+            }
         }
     }
 
@@ -433,6 +490,9 @@ public class GridHome extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d("Resume", "");
+
+        progress.setVisibility(View.INVISIBLE);
+
         GPSTracker gpsTracker = new GPSTracker(this);
 
         if(!gpsTracker.canGetLocation()) {
@@ -486,6 +546,7 @@ public class GridHome extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
         Intent intent = new Intent(GridHome.this, SensorService.class);
         if(col) {
             startService(intent);

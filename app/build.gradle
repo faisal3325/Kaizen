@@ -59,4 +59,3 @@ dependencies {
     compile 'com.dropbox.core:dropbox-core-sdk:2.1.2'
     testCompile 'junit:junit:4.12'
 }
-apply plugin: 'com.google.gms.google-services'

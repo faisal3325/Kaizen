@@ -76,32 +76,25 @@ public class KrumbsActivity extends AppCompatActivity implements GoogleApiClient
         });
     }
 
-    public void requestPermission(String strPermission, int perCode, Context _c, Activity _a) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(_a, strPermission)) {
-            Toast.makeText(getApplicationContext(), "GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
-        } else {
-            ActivityCompat.requestPermissions(_a, new String[]{strPermission}, perCode);
-        }
+    public void requestPermission(String strPermission, int perCode, Context _c, Activity _a)   {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(_a, strPermission)) Toast.makeText(getApplicationContext(), "GPS " +
+                "permission allows us to access location data. Please allow in App Settings " +
+                    "for additional functionality.", Toast.LENGTH_LONG).show();
+        else  ActivityCompat.requestPermissions(_a, new String[]{strPermission}, perCode);
     }
 
     public static boolean checkPermission(String strPermission, Context _c, Activity _a) {
         int result = ContextCompat.checkSelfPermission(_c, strPermission);
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
-        }
+        return result == PackageManager.PERMISSION_GRANTED;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE_LOCATION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    fetchLocationData();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Permission Denied, You cannot access location data.", Toast.LENGTH_LONG).show();
-                }
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)    fetchLocationData();
+                else    Toast.makeText(getApplicationContext(), "Permission Denied, You cannot access location data.",
+                        Toast.LENGTH_LONG).show();
                 break;
         }
     }

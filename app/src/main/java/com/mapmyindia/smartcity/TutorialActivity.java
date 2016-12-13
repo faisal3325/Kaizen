@@ -30,8 +30,8 @@ public class TutorialActivity extends AppIntro  {
         addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Accident detection which will detect if you are involved in " +
                 "an accident using the sensors and will send SMS to all you emergency contacts with your location", R.drawable.col, Color.parseColor("#9C27B0")));
 
-        setBarColor(Color.parseColor("#3F51B5"));
-        setSeparatorColor(Color.parseColor("#2196F3"));
+        //setBarColor(Color.parseColor("#3F51B5"));
+        //setSeparatorColor(Color.parseColor("#2196F3"));
         showSkipButton(true);
         setProgressButtonEnabled(true);
         setVibrate(true);

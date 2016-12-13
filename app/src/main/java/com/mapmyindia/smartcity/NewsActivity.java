@@ -39,13 +39,15 @@ public class NewsActivity extends AppCompatActivity {
     String city;
     Double lat, lng;
     ProgressDialog pd;
+    Boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_layout);
-        Log.d("News", "RUnning");
+        Log.d("News", "Running");
         pd = new ProgressDialog(this);
+        pd.setCancelable(false);
         pd.setMessage("Loading");
 
         Bundle extras = getIntent().getExtras();
@@ -234,6 +236,7 @@ public class NewsActivity extends AppCompatActivity {
             super.onPostExecute(result);
             // Dismiss the progress dialog
             pd.hide();
+            flag = true;
             adapter = new RecyclerNewsAdapter(getApplicationContext(), title, image, url);
             recyclerView.setAdapter(adapter);
         }
@@ -245,6 +248,7 @@ public class NewsActivity extends AppCompatActivity {
             if(src.contains("null"))    {
 
             }
+
             URL url2 = new URL(src);
             HttpURLConnection connection = (HttpURLConnection) url2.openConnection();
             connection.setDoInput(true);
@@ -258,5 +262,30 @@ public class NewsActivity extends AppCompatActivity {
             Log.e("Exception",e.getMessage());
             return null;
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onPause();
+        if(!flag)   new fetchData().execute();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pd.dismiss();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        pd.dismiss();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        pd.dismiss();
     }
 }
