@@ -69,7 +69,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_gravity="center">
                 <ImageView
                     android:id="@+id/weatherIcon"
                     android:layout_width="wrap_content"
@@ -81,16 +82,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:paddingStart="10dp"
                     android:textStyle="bold"
-                    android:textSize="20sp"
                     android:text=""/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="8dp">
                 <TextView
                     android:id="@+id/temp"
                     android:layout_width="wrap_content"
@@ -113,18 +113,19 @@
             </LinearLayout>
 
             <LinearLayout
-                android:paddingStart="50dp"
+                android:paddingStart="40dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    app:srcCompat="@drawable/weather"
-                    android:id="@+id/imageView3"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/issues_icon"
+                    android:id="@+id/imageView4"
                     android:layout_weight="1" />
             </LinearLayout>
 

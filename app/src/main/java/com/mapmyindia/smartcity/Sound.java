@@ -1,15 +1,12 @@
 package com.mapmyindia.smartcity;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,16 +14,14 @@ import java.util.ArrayList;
 
 public class Sound extends Activity {
 
-    TextView mStatusView;
-    Button upload;
+    TextView mStatusView, button;
     ImageView listenButton;
     MediaRecorder mRecorder;
-    FloatingActionButton fab;
 
     private ArrayList<Double> values = new ArrayList();
     private static double mEMA = 0.0, sum = 0, lat, lng;
     private static int i;
-    private boolean listening = false, flag = false;
+    private boolean listening = false;
     static final private double EMA_FILTER = 0.6;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -35,8 +30,7 @@ public class Sound extends Activity {
 
         mStatusView = (TextView) findViewById(R.id.textView);
         listenButton = (ImageView) findViewById(R.id.imageView4);
-        fab = (FloatingActionButton) findViewById(R.id.map);
-        upload = (Button) findViewById(R.id.upload);
+        button = (TextView) findViewById(R.id.textView6);
 
         listenButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,52 +38,28 @@ public class Sound extends Activity {
                 if(!listening) {
 
                     values.clear();
+                    button.setText("LISTENING...");
+                    button.setTextSize(30);
+                    button.setTextColor(Color.BLUE);
                     sum = 0;
                     listening = true;
-                    listenButton.setImageResource(R.drawable.start_button_highlighted);
+                    Log.d("", "jhgfydf");
+                    listenButton.setImageResource(R.drawable.start_);
 
                     new CountDownTimer(11000, 1000) {
                         public void onTick(long millisUntilFinished) {
                             startRecorder();
                             Log.i("Noise", "Tock");
-                            soundDb(40);
+                            soundDb(60);
                         }
 
                         public void onFinish() {
                             listening = false;
                             stopRecorder();
                             updateTv();
-                            listenButton.setImageResource(R.drawable.start_button);
                         }
                     }.start();
                 }
-            }
-        });
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Sound.this , MapActivity.class);
-                intent.putExtra("Place", "sound");
-                startActivity(intent);
-            }
-        });
-
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(flag) {
-                    GPSTracker gpsTracker = new GPSTracker(Sound.this);
-                    if (!gpsTracker.canGetLocation()) gpsTracker.showSettingsAlert();
-                    else {
-                        flag = false;
-                        gpsTracker.getLocation();
-                        lat = GPSTracker.latitude;
-                        lng = GPSTracker.longitude;
-                        Snackbar.make(view, lat + ", " + lng, Snackbar.LENGTH_SHORT);
-                    }
-                }   else    Snackbar.make(view, "Please listen first for noise levels.", Snackbar.LENGTH_SHORT);
             }
         });
     }
@@ -113,15 +83,15 @@ public class Sound extends Activity {
             try     {
                 mRecorder.prepare();
             }   catch (java.io.IOException ioe) {
-                android.util.Log.e("[Monkey]", "IOException: " +
+                android.util.Log.e("Sound", "IOException: " +
                         android.util.Log.getStackTraceString(ioe));
             }   catch (java.lang.SecurityException e) {
-                android.util.Log.e("[Monkey]", "SecurityException: " +
+                android.util.Log.e("Sound", "SecurityException: " +
                         android.util.Log.getStackTraceString(e));
             }   try     {
                 mRecorder.start();
             }   catch (java.lang.SecurityException e) {
-                android.util.Log.e("[Monkey]", "SecurityException: " +
+                android.util.Log.e("Sound", "SecurityException: " +
                         android.util.Log.getStackTraceString(e));
             }
         }
@@ -137,9 +107,12 @@ public class Sound extends Activity {
 
     public void updateTv(){
         Double a = avgValue();
-        i = Integer.valueOf(a.intValue());
+        i = a.intValue();
         mStatusView.setText(i + " dB");
-        flag = true;
+        button.setText(i + " dB");
+        if(i < 75)  button.setTextColor(Color.GREEN);
+        else if(i > 75 && i < 100)  button.setTextColor(Color.YELLOW);
+        else button.setTextColor(Color.RED);
     }
 
     public double avgValue()  {
