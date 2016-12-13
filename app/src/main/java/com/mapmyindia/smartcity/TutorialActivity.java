@@ -28,6 +28,7 @@ public class TutorialActivity extends AppIntro  {
         addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Issue Box where you can take a Real Time Image of Complaint " +
                 "with Exact Location and will be uploaded to Admin Panel ", R.drawable.issues_icon, Color.parseColor("#2196F3")));
 
+
         addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Accident detection which will detect if you are involved in " +
                 "an accident using the sensors and will send SMS to all you emergency contacts with your location", R.drawable.col, Color.parseColor("#78909C")));
 
