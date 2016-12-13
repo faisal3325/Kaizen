@@ -18,6 +18,7 @@ public class TutorialActivity extends AppIntro  {
 
     public static final String PREFS_NAME = "TutPrefs";
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
