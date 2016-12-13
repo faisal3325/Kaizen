@@ -30,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gc.materialdesign.views.Button;
 import com.gc.materialdesign.views.ProgressBarCircularIndeterminate;
 
 import org.json.JSONArray;
@@ -42,6 +41,9 @@ import java.util.List;
 
 public class GridHome extends AppCompatActivity {
 
+    public static final String PREFS_NAME = "CollisionPrefs", PREFS_NUM = "AccidentPrefs";
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+    public static boolean col = false, flag = false;
     Intent intent;
     TextView autoComplete;
     GridView grid;
@@ -49,24 +51,20 @@ public class GridHome extends AppCompatActivity {
     CardView card;
     ProgressBarCircularIndeterminate progress;
     LinearLayout search, weatherLayout;
-    public static final String PREFS_NAME = "CollisionPrefs", PREFS_NUM = "AccidentPrefs";
-    public static boolean col  = false, flag = false;
     Double lat, lng;
     String locationKey, city;
-    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
-
     int[] imageId = {
             R.drawable.nearby,
-            R.drawable.sound,
+            R.drawable.issues_icon,
             R.drawable.col,
-            R.drawable.report
+            R.drawable.sound
     };
 
     String[] gridtext = {
             "Nearby",
-            "Sound Pollution",
+            "Issue",
             "Collision Detection",
-            "Issues Statistics"
+            "Sound Pollution"
     };
 
     @Override
@@ -151,7 +149,7 @@ public class GridHome extends AppCompatActivity {
         issues.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(GridHome.this, KrumbsActivity.class);
+                intent = new Intent(GridHome.this, KrumbsReport.class);
                 startActivity(intent);
             }
         });
@@ -188,7 +186,7 @@ public class GridHome extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case 1:
-                        intent = new Intent(GridHome.this, Sound.class);
+                        intent = new Intent(GridHome.this, KrumbsActivity.class);
                         startActivity(intent);
                         break;
                     case 2:
@@ -278,7 +276,7 @@ public class GridHome extends AppCompatActivity {
                                 .show();
                         break;
                     case 3:
-                        Intent intent = new Intent(GridHome.this, KrumbsReport.class);
+                        Intent intent = new Intent(GridHome.this, Sound.class);
                         startActivity(intent);
                         break;
                 }
@@ -329,6 +327,99 @@ public class GridHome extends AppCompatActivity {
             return true;
         }
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("Resume", "");
+
+        progress.setVisibility(View.INVISIBLE);
+
+        GPSTracker gpsTracker = new GPSTracker(this);
+
+        if (!gpsTracker.canGetLocation()) {
+            gpsTracker.showSettingsAlert();
+        } else {
+            gpsTracker.getLocation();
+            lat = GPSTracker.latitude;
+            lng = GPSTracker.longitude;
+
+            if (checkInternet()) {
+                Log.d("Internet", "On");
+                new getLocationKey().execute();
+            } else {
+                Log.d("Internet", "Off on Resume");
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder
+                        .setMessage("No internet connection on your device. Would you like to enable it?")
+                        .setTitle("No Internet Connection")
+                        .setCancelable(false)
+                        .setPositiveButton(" Enable Internet ",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        flag = true;
+                                        Intent dialogIntent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+                                        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        GridHome.super.onPause();
+                                        startActivity(dialogIntent);
+                                    }
+                                })
+                        .setNegativeButton(" Cancel ",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                                        intent.addCategory(Intent.CATEGORY_HOME);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                    }
+                                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+        }
+        Intent intent = new Intent(GridHome.this, SensorService.class);
+        if (col) {
+            startService(intent);
+        } else stopService(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Intent intent = new Intent(GridHome.this, SensorService.class);
+        if (col) {
+            startService(intent);
+        } else stopService(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent(GridHome.this, SensorService.class);
+        if (col) {
+            startService(intent);
+        } else stopService(intent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Intent intent = new Intent(GridHome.this, SensorService.class);
+        if (col) {
+            startService(intent);
+        } else stopService(intent);
+    }
+
+    boolean checkInternet() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
     }
 
     private class getLocationKey extends AsyncTask<Void, Void, Void> {
@@ -398,6 +489,7 @@ public class GridHome extends AppCompatActivity {
             new getWeatherData().execute();
         }
     }
+
     private class getWeatherData extends AsyncTask<Void, Void, Void> {
 
         String wText, wIcon, tempValue, uri;
@@ -484,98 +576,5 @@ public class GridHome extends AppCompatActivity {
                 weatherIcon.setImageDrawable(res);
             }
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("Resume", "");
-
-        progress.setVisibility(View.INVISIBLE);
-
-        GPSTracker gpsTracker = new GPSTracker(this);
-
-        if(!gpsTracker.canGetLocation()) {
-            gpsTracker.showSettingsAlert();
-        }   else {
-            gpsTracker.getLocation();
-            lat = GPSTracker.latitude;
-            lng = GPSTracker.longitude;
-
-            if (checkInternet()) {
-                Log.d("Internet", "On");
-                new getLocationKey().execute();
-            } else {
-                Log.d("Internet", "Off on Resume");
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-                alertDialogBuilder
-                        .setMessage("No internet connection on your device. Would you like to enable it?")
-                        .setTitle("No Internet Connection")
-                        .setCancelable(false)
-                        .setPositiveButton(" Enable Internet ",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        flag = true;
-                                        Intent dialogIntent = new Intent(android.provider.Settings.ACTION_SETTINGS);
-                                        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        GridHome.super.onPause();
-                                        startActivity(dialogIntent);
-                                    }
-                                })
-                        .setNegativeButton(" Cancel ",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                        Intent intent = new Intent(Intent.ACTION_MAIN);
-                                        intent.addCategory(Intent.CATEGORY_HOME);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                    }
-                                });
-
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-            }
-        }
-        Intent intent = new Intent(GridHome.this, SensorService.class);
-        if(col) {
-            startService(intent);
-        }   else stopService(intent);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        Intent intent = new Intent(GridHome.this, SensorService.class);
-        if(col) {
-            startService(intent);
-        }   else stopService(intent);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Intent intent = new Intent(GridHome.this, SensorService.class);
-        if(col) {
-            startService(intent);
-        }   else stopService(intent);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Intent intent = new Intent(GridHome.this, SensorService.class);
-        if(col) {
-            startService(intent);
-        }   else stopService(intent);
-    }
-
-    boolean checkInternet()    {
-        ConnectivityManager cm =
-                (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
     }
 }
