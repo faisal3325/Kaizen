@@ -179,6 +179,17 @@ public class MapActivity extends AppCompatActivity  {
             Log.d("Trip", String.valueOf(t.getAdvises()));
             Log.d("Trip", String.valueOf(t.getDistance()));
             Log.d("Trip", String.valueOf(t.getPath()));
+        }   else if (Objects.equals(place, "sound"))    {
+            Log.d("Map", "Sound");
+            fab.setVisibility(View.INVISIBLE);
+
+            Marker marker = new Marker(mMapView);
+            marker.setTitle("Your location");
+            marker.setPosition(new GeoPoint(lat, lng));
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            mMapView.getOverlays().add(marker);
+            mMapView.setZoom(10);
+            mMapView.setCenter(geoPoint);
         }
     }
 }

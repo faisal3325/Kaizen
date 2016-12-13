@@ -18,7 +18,6 @@ public class SplashActivity extends AppCompatActivity   {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
-
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
         if (settings.getString("Seen", "").equals("Seen")) {

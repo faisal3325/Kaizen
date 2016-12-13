@@ -1,11 +1,15 @@
 package com.mapmyindia.smartcity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,13 +18,15 @@ import java.util.ArrayList;
 public class Sound extends Activity {
 
     TextView mStatusView;
+    Button upload;
     ImageView listenButton;
     MediaRecorder mRecorder;
+    FloatingActionButton fab;
 
     private ArrayList<Double> values = new ArrayList();
-    private double sum = 0;
-    private static double mEMA = 0.0;
-    private boolean listening = false;
+    private static double mEMA = 0.0, sum = 0, lat, lng;
+    private static int i;
+    private boolean listening = false, flag = false;
     static final private double EMA_FILTER = 0.6;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,8 @@ public class Sound extends Activity {
 
         mStatusView = (TextView) findViewById(R.id.textView);
         listenButton = (ImageView) findViewById(R.id.imageView4);
+        fab = (FloatingActionButton) findViewById(R.id.map);
+        upload = (Button) findViewById(R.id.upload);
 
         listenButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +63,33 @@ public class Sound extends Activity {
                         }
                     }.start();
                 }
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Sound.this , MapActivity.class);
+                intent.putExtra("Place", "sound");
+                startActivity(intent);
+            }
+        });
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(flag) {
+                    GPSTracker gpsTracker = new GPSTracker(Sound.this);
+                    if (!gpsTracker.canGetLocation()) gpsTracker.showSettingsAlert();
+                    else {
+                        flag = false;
+                        gpsTracker.getLocation();
+                        lat = GPSTracker.latitude;
+                        lng = GPSTracker.longitude;
+                        Snackbar.make(view, lat + ", " + lng, Snackbar.LENGTH_SHORT);
+                    }
+                }   else    Snackbar.make(view, "Please listen first for noise levels.", Snackbar.LENGTH_SHORT);
             }
         });
     }
@@ -102,8 +137,9 @@ public class Sound extends Activity {
 
     public void updateTv(){
         Double a = avgValue();
-        Integer i = Integer.valueOf(a.intValue());
+        i = Integer.valueOf(a.intValue());
         mStatusView.setText(i + " dB");
+        flag = true;
     }
 
     public double avgValue()  {
