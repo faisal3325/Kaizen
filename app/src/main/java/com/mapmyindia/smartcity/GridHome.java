@@ -57,7 +57,7 @@ public class GridHome extends AppCompatActivity {
 
     int[] imageId = {
             R.drawable.nearby,
-            R.drawable.report,
+            R.drawable.sound,
             R.drawable.col,
             R.drawable.report
     };
