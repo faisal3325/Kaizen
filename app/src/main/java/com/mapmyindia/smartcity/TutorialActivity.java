@@ -18,17 +18,20 @@ public class TutorialActivity extends AppIntro  {
 
     public static final String PREFS_NAME = "TutPrefs";
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         this.getSupportActionBar().hide();
         addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Application which connect you to the Map where you can find " +
-                "out Nearest place details like Restaurants, Hospitals, Atm, Bus Stop..Etc", R.drawable.tut_nearby, Color.parseColor("#673AB7")));
+                "out Nearest place details like Restaurants, Hospitals, Atm, Bus Stop..Etc", R.drawable.tut_nearby, Color.parseColor("#558B2F")));
         addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Issue Box where you can take a Real Time Image of Complaint " +
-                "with Exact Location and will be uploaded to Admin Panel ", R.drawable.issues_icon, Color.parseColor("#3F51B5")));
+                "with Exact Location and will be uploaded to Admin Panel ", R.drawable.issues_icon, Color.parseColor("#2196F3")));
         addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Accident detection which will detect if you are involved in " +
-                "an accident using the sensors and will send SMS to all you emergency contacts with your location", R.drawable.col, Color.parseColor("#9C27B0")));
+                "an accident using the sensors and will send SMS to all you emergency contacts with your location", R.drawable.col, Color.parseColor("#78909C")));
+        addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Sound Pollution " +
+                "detection which will detect sound levels in decibels." , R.drawable.sound, Color.parseColor("#673AB7")));
 
         //setBarColor(Color.parseColor("#3F51B5"));
         //setSeparatorColor(Color.parseColor("#2196F3"));
