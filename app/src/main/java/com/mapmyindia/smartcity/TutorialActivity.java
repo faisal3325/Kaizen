@@ -33,7 +33,9 @@ public class TutorialActivity extends AppIntro  {
         addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Accident detection which will detect if you are involved in " +
                 "an accident using the sensors and will send SMS to all you emergency contacts with your location", R.drawable.col, Color.parseColor("#78909C")));
 
-        addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Sound Pollution detection which will detect Average Nearby Sound Signals" , R.drawable.sound, Color.parseColor("#673AB7")));
+        addSlide(AppIntroFragment.newInstance("Kaizen", "A Smart India Sound Pollution " +
+                "detection which will detect sound levels in decibels." , R.drawable.sound, Color.parseColor("#673AB7")));
+
         setBarColor(Color.parseColor("#3F51B5"));
         setSeparatorColor(Color.parseColor("#2196F3"));
         showSkipButton(true);
