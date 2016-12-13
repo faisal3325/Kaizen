@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.Button;
 import com.gc.materialdesign.views.ProgressBarCircularIndeterminate;
 
 import org.json.JSONArray;
@@ -343,7 +344,6 @@ public class GridHome extends AppCompatActivity {
             new getWeatherData().execute();
         }
     }
-
     private class getWeatherData extends AsyncTask<Void, Void, Void> {
 
         String wText, wIcon, tempValue, uri;
